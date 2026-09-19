@@ -1,6 +1,6 @@
 # Operación Cumpleaños
 
-Primera versión para Ainhoa: intro, 3 elementos bloqueados y una misión de prueba. HTML/CSS/JS, sin instalaciones, servicios externos ni backend.
+Primera versión para Ainhoa: intro, pequeña historia de cumpleaños, dos espacios para fotos y una misión de prueba. HTML/CSS/JS, sin instalaciones, servicios externos ni backend.
 
 ## Probar
 
@@ -8,7 +8,7 @@ Abrir `index.html` en un navegador. Pulsar «Iniciar operación» para ver la pr
 
 ## Estructura
 
-- `index.html`: textos y pantallas. La misión real sustituirá el contenido de `#mission`.
+- `index.html`: textos y pantallas. Las fotos sustituirán los marcadores de `#memories` y la misión real el contenido de `#mission`.
 - `style.css`: diseño adaptable a móvil.
 - `script.js`: navegación entre intro y misión.
 - `images/`: futuras fotos.

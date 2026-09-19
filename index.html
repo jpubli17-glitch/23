@@ -25,6 +25,38 @@
       <button id="start" type="button" hidden>Iniciar operación <span aria-hidden="true">↗</span></button>
       <noscript><p>Activa JavaScript en tu navegador para iniciar la operación.</p></noscript>
     </section>
+    <section id="story" aria-labelledby="story-title" hidden>
+      <p class="eyebrow">CAPÍTULO 01 // 36 VUELTAS AL SOL</p>
+      <h2 id="story-title" tabindex="-1">Antes de empezar,<br><em>una pequeña historia.</em></h2>
+      <div class="story-copy">
+        <p>Hace 36 años llegó al mundo una persona capaz de convertir cualquier plan en una historia y cualquier día normal en un recuerdo.</p>
+        <p>Desde entonces ha coleccionado momentos, personas y alguna que otra aventura que merece permanecer clasificada.</p>
+        <p>Hoy, en su cumpleaños, toca abrir el expediente.</p>
+      </div>
+      <nav class="actions" aria-label="Navegación de la historia">
+        <button type="button" data-back="intro" class="secondary">Volver <span aria-hidden="true">↶</span></button>
+        <button type="button" data-next="memories">Ver recuerdos <span aria-hidden="true">→</span></button>
+      </nav>
+    </section>
+    <section id="memories" aria-labelledby="memories-title" hidden>
+      <p class="eyebrow">ARCHIVO VISUAL // 02 ELEMENTOS</p>
+      <h2 id="memories-title" tabindex="-1">Dos pruebas de<br><em>una gran historia.</em></h2>
+      <p class="message">Antes de ir al lío, hay recuerdos que merecen volver a aparecer.</p>
+      <div class="photo-grid">
+        <figure>
+          <div class="photo-placeholder" role="img" aria-label="Primera foto pendiente de añadir"><span>FOTO 01</span></div>
+          <figcaption>Un momento para recordar.</figcaption>
+        </figure>
+        <figure>
+          <div class="photo-placeholder" role="img" aria-label="Segunda foto pendiente de añadir"><span>FOTO 02</span></div>
+          <figcaption>Y otro que tenía que estar aquí.</figcaption>
+        </figure>
+      </div>
+      <nav class="actions" aria-label="Navegación de recuerdos">
+        <button type="button" data-back="story" class="secondary">Volver <span aria-hidden="true">↶</span></button>
+        <button type="button" data-next="mission">Vamos al lío <span aria-hidden="true">↗</span></button>
+      </nav>
+    </section>
     <section id="mission" aria-labelledby="mission-title" hidden>
       <p class="eyebrow">OPERACIÓN EN CURSO // 01</p>
       <h2 id="mission-title" tabindex="-1">Tu primera<br><em>misión.</em></h2>
@@ -36,7 +68,7 @@
       </div>
       <!-- Añadir aquí el contenido real: fotos en images/ y vídeos en videos/.
            Vídeos: usar controls, playsinline y preload="none". -->
-      <button id="back" type="button">Volver al expediente <span aria-hidden="true">↶</span></button>
+      <button type="button" data-back="memories" class="secondary">Volver a los recuerdos <span aria-hidden="true">↶</span></button>
     </section>
     <footer>SOLO PARA TI <span aria-hidden="true">✦</span> 36 ES SOLO EL PRINCIPIO</footer>
   </main>

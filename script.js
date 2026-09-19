@@ -1,20 +1,22 @@
 'use strict';
 
 const intro = document.querySelector('#intro');
-const mission = document.querySelector('#mission');
 const start = document.querySelector('#start');
-const back = document.querySelector('#back');
+const screens = [...document.querySelectorAll('main > section')];
 
 start.hidden = false;
 
-start.addEventListener('click', () => {
-  intro.hidden = true;
-  mission.hidden = false;
-  document.querySelector('#mission-title').focus();
-});
+function showScreen(id) {
+  screens.forEach((screen) => { screen.hidden = screen.id !== id; });
+  const title = document.querySelector(`#${id} h1, #${id} h2`);
+  if (title) title.focus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-back.addEventListener('click', () => {
-  mission.hidden = true;
-  intro.hidden = false;
-  start.focus();
+start.addEventListener('click', () => showScreen('story'));
+
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-next], [data-back]');
+  if (!button) return;
+  showScreen(button.dataset.next || button.dataset.back);
 });
