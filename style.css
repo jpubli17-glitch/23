@@ -33,8 +33,8 @@ figcaption { color: #b8c2b9; font-family: Georgia, serif; font-style: italic; li
 .target-list span { display: block; margin-top: .25rem; color: #8f9991; font-size: .75rem; font-weight: 400; letter-spacing: 0; }
 .target-list li.found { border-color: #61b87a; color: #8ee5a6; }
 .target-list li.found span { color: #8ee5a6; }
-.word-grid { display: grid; grid-template-columns: repeat(20, 1fr); width: 100%; border: 1px solid #536052; background: #0c1310; touch-action: none; user-select: none; -webkit-user-select: none; }
-.word-cell { aspect-ratio: 1; min-width: 0; border: 0; border-right: 1px solid #1d2a23; border-bottom: 1px solid #1d2a23; border-radius: 0; padding: 0; min-height: 0; display: grid; place-items: center; background: transparent; color: #d9ded9; font: 600 clamp(.52rem, 2.25vw, .78rem)/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.word-grid { display: grid; grid-template-columns: repeat(15, 1fr); width: 100%; border: 1px solid #536052; background: #0c1310; touch-action: none; user-select: none; -webkit-user-select: none; }
+.word-cell { aspect-ratio: 1; min-width: 0; border: 0; border-right: 1px solid #1d2a23; border-bottom: 1px solid #1d2a23; border-radius: 0; padding: 0; min-height: 0; display: grid; place-items: center; background: transparent; color: #d9ded9; font: 700 clamp(.72rem, 3.2vw, 1rem)/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .word-cell:hover { background: transparent; }
 .word-cell.selecting { background: #9f2f35; color: #fff; }
 .word-cell.found { background: #2d7a49; color: #fff; }

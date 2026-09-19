@@ -1,13 +1,13 @@
 'use strict';
 
-const STORAGE_KEY = 'operacion-cumpleanos-v2';
+const STORAGE_KEY = 'operacion-cumpleanos-v3';
 const WAIT_MS = 20 * 60 * 1000;
-const WORD_SIZE = 20;
+const WORD_SIZE = 15;
 const WORDS = [
   { value: 'P4PAYA', start: [1, 2], direction: [0, 1] },
-  { value: 'J1MMY', start: [3, 16], direction: [1, 0] },
-  { value: 'L4URA', start: [10, 15], direction: [1, -1] },
-  { value: 'MARIB3L', start: [18, 17], direction: [0, -1] }
+  { value: 'J1MMY', start: [2, 13], direction: [1, 0] },
+  { value: 'L4URA', start: [7, 12], direction: [1, -1] },
+  { value: 'MARIB3L', start: [13, 13], direction: [0, -1] }
 ];
 const PUZZLES = [
   { image: 'images/piscina.jpeg', label: 'ARCHIVO 01 / 02' },
