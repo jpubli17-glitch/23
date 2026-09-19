@@ -128,11 +128,6 @@ function paintFoundWords() {
     const word = WORDS.find((item) => item.value === value);
     if (word) wordIndexes(word).forEach((index) => grid.children[index]?.classList.add('found'));
   });
-  document.querySelectorAll('.target-list li').forEach((item) => {
-    const found = state.foundWords.includes(item.dataset.word);
-    item.classList.toggle('found', found);
-    item.querySelector('span').textContent = found ? 'encontrada' : 'pendiente';
-  });
   wordStatus.textContent = `${state.foundWords.length} de 4 palabras encontradas`;
   codeForm.hidden = state.foundWords.length !== WORDS.length || state.firstGiftUnlocked;
 }
