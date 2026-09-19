@@ -1,18 +1,293 @@
 'use strict';
 
-const intro = document.querySelector('#intro');
-const start = document.querySelector('#start');
+const STORAGE_KEY = 'operacion-cumpleanos-v2';
+const WAIT_MS = 20 * 60 * 1000;
+const WORD_SIZE = 20;
+const WORDS = [
+  { value: 'P4PAYA', start: [1, 2], direction: [0, 1] },
+  { value: 'J1MMY', start: [3, 16], direction: [1, 0] },
+  { value: 'L4URA', start: [10, 15], direction: [1, -1] },
+  { value: 'MARIB3L', start: [18, 17], direction: [0, -1] }
+];
+const PUZZLES = [
+  { image: 'images/piscina.jpeg', label: 'ARCHIVO 01 / 02' },
+  { image: 'images/restaurante.jpeg', label: 'ARCHIVO 02 / 02' }
+];
+
+const defaultState = {
+  screen: 'intro', foundWords: [], codeAttempts: 0, codeStage: 'entry', firstGiftUnlocked: false,
+  secondAvailableAt: 0, puzzleIndex: 0, puzzleBoards: [], puzzleMoves: [0, 0], secondGiftUnlocked: false
+};
+
+function loadState() {
+  try { return { ...defaultState, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') }; }
+  catch { return { ...defaultState }; }
+}
+
+let state = loadState();
 const screens = [...document.querySelectorAll('main > section')];
+const start = document.querySelector('#start');
+const grid = document.querySelector('#word-grid');
+const codeForm = document.querySelector('#code-form');
+const codeInput = document.querySelector('#code');
+const wordStatus = document.querySelector('#word-status');
+const errorVideo = document.querySelector('#error-video');
+const giftOne = document.querySelector('#gift-one');
+const photoPuzzle = document.querySelector('#photo-puzzle');
+let selection = null;
+let selectedTile = null;
+let countdownTimer = null;
 
-start.hidden = false;
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
-function showScreen(id) {
+function showScreen(id, persist = true) {
   screens.forEach((screen) => { screen.hidden = screen.id !== id; });
+  if (persist) { state.screen = id; saveState(); }
   const title = document.querySelector(`#${id} h1, #${id} h2`);
   if (title) title.focus();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'waiting') startCountdown();
+  if (id === 'puzzles') renderPuzzle();
 }
 
+function seededRandom(seed) {
+  let value = seed;
+  return () => ((value = (value * 9301 + 49297) % 233280) / 233280);
+}
+
+function buildWordGrid() {
+  const random = seededRandom(230990);
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ111223344556789';
+  const letters = Array.from({ length: WORD_SIZE * WORD_SIZE }, () => alphabet[Math.floor(random() * alphabet.length)]);
+  WORDS.forEach(({ value, start, direction }) => {
+    [...value].forEach((character, index) => {
+      const row = start[0] + direction[0] * index;
+      const column = start[1] + direction[1] * index;
+      letters[row * WORD_SIZE + column] = character;
+    });
+  });
+  grid.innerHTML = '';
+  letters.forEach((character, index) => {
+    const cell = document.createElement('button');
+    cell.type = 'button';
+    cell.className = 'word-cell';
+    cell.textContent = character;
+    cell.dataset.index = index;
+    cell.setAttribute('role', 'gridcell');
+    cell.setAttribute('aria-label', `${character}, fila ${Math.floor(index / WORD_SIZE) + 1}, columna ${(index % WORD_SIZE) + 1}`);
+    grid.append(cell);
+  });
+  paintFoundWords();
+}
+
+function indexesBetween(startIndex, endIndex) {
+  const startRow = Math.floor(startIndex / WORD_SIZE), startColumn = startIndex % WORD_SIZE;
+  const endRow = Math.floor(endIndex / WORD_SIZE), endColumn = endIndex % WORD_SIZE;
+  const rowDistance = endRow - startRow, columnDistance = endColumn - startColumn;
+  if (!(rowDistance === 0 || columnDistance === 0 || Math.abs(rowDistance) === Math.abs(columnDistance))) return [];
+  const steps = Math.max(Math.abs(rowDistance), Math.abs(columnDistance));
+  const rowStep = Math.sign(rowDistance), columnStep = Math.sign(columnDistance);
+  return Array.from({ length: steps + 1 }, (_, index) =>
+    (startRow + rowStep * index) * WORD_SIZE + startColumn + columnStep * index);
+}
+
+function clearProvisional() { grid.querySelectorAll('.selecting').forEach((cell) => cell.classList.remove('selecting')); }
+
+function updateSelection(endIndex) {
+  if (!selection) return;
+  clearProvisional();
+  selection.indexes = indexesBetween(selection.start, endIndex);
+  selection.indexes.forEach((index) => grid.children[index].classList.add('selecting'));
+}
+
+function finishSelection() {
+  if (!selection) return;
+  const candidate = selection.indexes.map((index) => grid.children[index].textContent).join('');
+  const reversed = [...candidate].reverse().join('');
+  const match = WORDS.find(({ value }) => candidate === value || reversed === value);
+  clearProvisional();
+  if (match && !state.foundWords.includes(match.value)) {
+    state.foundWords.push(match.value);
+    saveState();
+    paintFoundWords();
+  }
+  selection = null;
+}
+
+function wordIndexes(word) {
+  return [...word.value].map((_, index) => {
+    const row = word.start[0] + word.direction[0] * index;
+    const column = word.start[1] + word.direction[1] * index;
+    return row * WORD_SIZE + column;
+  });
+}
+
+function paintFoundWords() {
+  grid.querySelectorAll('.found').forEach((cell) => cell.classList.remove('found'));
+  state.foundWords.forEach((value) => {
+    const word = WORDS.find((item) => item.value === value);
+    if (word) wordIndexes(word).forEach((index) => grid.children[index]?.classList.add('found'));
+  });
+  document.querySelectorAll('.target-list li').forEach((item) => {
+    const found = state.foundWords.includes(item.dataset.word);
+    item.classList.toggle('found', found);
+    item.querySelector('span').textContent = found ? 'encontrada' : 'pendiente';
+  });
+  wordStatus.textContent = `${state.foundWords.length} de 4 palabras encontradas`;
+  codeForm.hidden = state.foundWords.length !== WORDS.length || state.firstGiftUnlocked;
+}
+
+grid.addEventListener('pointerdown', (event) => {
+  const cell = event.target.closest('.word-cell');
+  if (!cell) return;
+  event.preventDefault();
+  grid.setPointerCapture(event.pointerId);
+  selection = { start: Number(cell.dataset.index), indexes: [] };
+  updateSelection(selection.start);
+});
+
+grid.addEventListener('pointermove', (event) => {
+  if (!selection) return;
+  const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('.word-cell');
+  if (target && grid.contains(target)) updateSelection(Number(target.dataset.index));
+});
+grid.addEventListener('pointerup', finishSelection);
+grid.addEventListener('pointercancel', () => { clearProvisional(); selection = null; });
+
+codeForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  state.codeAttempts += 1;
+  saveState();
+  codeForm.hidden = true;
+  if (state.codeAttempts === 1) {
+    state.codeStage = 'error';
+    saveState();
+    errorVideo.hidden = false;
+    errorVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    state.firstGiftUnlocked = true;
+    state.codeStage = 'success';
+    saveState();
+    giftOne.hidden = false;
+    giftOne.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+
+document.querySelector('#retry-code').addEventListener('click', () => {
+  state.codeStage = 'entry';
+  saveState();
+  errorVideo.hidden = true;
+  codeForm.hidden = false;
+  codeInput.value = '';
+  codeInput.focus();
+});
+
+document.querySelector('#begin-wait').addEventListener('click', () => {
+  if (!state.secondAvailableAt) state.secondAvailableAt = Date.now() + WAIT_MS;
+  saveState();
+  showScreen('waiting');
+});
+
+function startCountdown() {
+  clearInterval(countdownTimer);
+  const update = () => {
+    const remaining = Math.max(0, state.secondAvailableAt - Date.now());
+    if (!state.secondAvailableAt || remaining === 0) {
+      clearInterval(countdownTimer);
+      showScreen('puzzles');
+      return;
+    }
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+    document.querySelector('#countdown').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+  update();
+  countdownTimer = setInterval(update, 1000);
+}
+
+function shuffledBoard(seed) {
+  const random = seededRandom(seed);
+  const board = Array.from({ length: 16 }, (_, index) => index);
+  for (let index = board.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(random() * (index + 1));
+    [board[index], board[swap]] = [board[swap], board[index]];
+  }
+  return board;
+}
+
+function ensurePuzzleState() {
+  if (!state.puzzleBoards[0]) state.puzzleBoards[0] = shuffledBoard(2309);
+  if (!state.puzzleBoards[1]) state.puzzleBoards[1] = shuffledBoard(1990);
+  saveState();
+}
+
+function renderPuzzle() {
+  ensurePuzzleState();
+  if (state.secondGiftUnlocked || state.puzzleIndex >= PUZZLES.length) {
+    document.querySelector('#puzzle-stage').hidden = true;
+    document.querySelector('#puzzles-complete').hidden = false;
+    return;
+  }
+  const puzzle = PUZZLES[state.puzzleIndex];
+  const board = state.puzzleBoards[state.puzzleIndex];
+  photoPuzzle.innerHTML = '';
+  board.forEach((sourceIndex, position) => {
+    const tile = document.createElement('button');
+    const sourceRow = Math.floor(sourceIndex / 4), sourceColumn = sourceIndex % 4;
+    tile.type = 'button';
+    tile.className = 'puzzle-tile';
+    tile.dataset.position = position;
+    tile.style.backgroundImage = `url('${puzzle.image}')`;
+    tile.style.backgroundPosition = `${sourceColumn * 100 / 3}% ${sourceRow * 100 / 3}%`;
+    tile.setAttribute('aria-label', `Pieza ${position + 1}`);
+    photoPuzzle.append(tile);
+  });
+  document.querySelector('#puzzle-label').textContent = puzzle.label;
+  document.querySelector('#move-count').textContent = `${state.puzzleMoves[state.puzzleIndex]} movimientos`;
+  document.querySelector('#puzzle-instructions').textContent = state.puzzleIndex === 0
+    ? 'Toca dos piezas para intercambiarlas. Completa primero el archivo de la piscina.'
+    : 'Primer archivo recuperado. Ahora reconstruye el recuerdo del restaurante.';
+  selectedTile = null;
+}
+
+photoPuzzle.addEventListener('click', (event) => {
+  const tile = event.target.closest('.puzzle-tile');
+  if (!tile) return;
+  const position = Number(tile.dataset.position);
+  if (selectedTile === null) {
+    selectedTile = position;
+    tile.classList.add('selected');
+    return;
+  }
+  const board = state.puzzleBoards[state.puzzleIndex];
+  [board[selectedTile], board[position]] = [board[position], board[selectedTile]];
+  state.puzzleMoves[state.puzzleIndex] += 1;
+  saveState();
+  renderPuzzle();
+  checkPuzzle();
+});
+
+document.querySelector('#puzzle-hint').addEventListener('click', () => {
+  const board = state.puzzleBoards[state.puzzleIndex];
+  const wrongPosition = board.findIndex((value, index) => value !== index);
+  if (wrongPosition < 0) return;
+  const correctTilePosition = board.indexOf(wrongPosition);
+  [board[wrongPosition], board[correctTilePosition]] = [board[correctTilePosition], board[wrongPosition]];
+  saveState();
+  renderPuzzle();
+  checkPuzzle();
+});
+
+function checkPuzzle() {
+  const solved = state.puzzleBoards[state.puzzleIndex].every((value, index) => value === index);
+  if (!solved) return;
+  state.puzzleIndex += 1;
+  if (state.puzzleIndex >= PUZZLES.length) state.secondGiftUnlocked = true;
+  saveState();
+  setTimeout(renderPuzzle, 500);
+}
+
+start.hidden = false;
 start.addEventListener('click', () => showScreen('story'));
 
 document.addEventListener('click', (event) => {
@@ -20,3 +295,14 @@ document.addEventListener('click', (event) => {
   if (!button) return;
   showScreen(button.dataset.next || button.dataset.back);
 });
+
+buildWordGrid();
+if (state.codeStage === 'error' && !state.firstGiftUnlocked) {
+  errorVideo.hidden = false;
+  codeForm.hidden = true;
+} else if (state.firstGiftUnlocked) {
+  giftOne.hidden = false;
+  codeForm.hidden = true;
+}
+if (state.screen === 'waiting' && state.secondAvailableAt <= Date.now()) state.screen = 'puzzles';
+showScreen(state.screen, false);

@@ -28,8 +28,35 @@ figure { margin: 0; }
 .photo-placeholder { aspect-ratio: 4 / 5; display: grid; place-items: center; border: 1px solid #536052; background: linear-gradient(145deg, #202c26, #141d19); color: #dfc38b; letter-spacing: .15em; font-size: .8rem; }
 .photo-placeholder span { border: 1px solid #7a715c; padding: .45rem .65rem; }
 figcaption { color: #b8c2b9; font-family: Georgia, serif; font-style: italic; line-height: 1.45; padding-top: .7rem; }
+.target-list { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; list-style: none; padding: 0; margin: 1.5rem 0; }
+.target-list li { border: 1px solid #536052; padding: .65rem .75rem; font-weight: 700; letter-spacing: .08em; }
+.target-list span { display: block; margin-top: .25rem; color: #8f9991; font-size: .75rem; font-weight: 400; letter-spacing: 0; }
+.target-list li.found { border-color: #61b87a; color: #8ee5a6; }
+.target-list li.found span { color: #8ee5a6; }
+.word-grid { display: grid; grid-template-columns: repeat(20, 1fr); width: 100%; border: 1px solid #536052; background: #0c1310; touch-action: none; user-select: none; -webkit-user-select: none; }
+.word-cell { aspect-ratio: 1; min-width: 0; border: 0; border-right: 1px solid #1d2a23; border-bottom: 1px solid #1d2a23; border-radius: 0; padding: 0; min-height: 0; display: grid; place-items: center; background: transparent; color: #d9ded9; font: 600 clamp(.52rem, 2.25vw, .78rem)/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.word-cell:hover { background: transparent; }
+.word-cell.selecting { background: #9f2f35; color: #fff; }
+.word-cell.found { background: #2d7a49; color: #fff; }
+.live-status { margin: .8rem 0 1.5rem; text-align: center; }
+.code-panel { border-top: 1px solid #536052; padding-top: 1.5rem; }
+.code-panel label { display: block; margin-bottom: .7rem; }
+.code-panel input { width: 100%; margin-bottom: .8rem; border: 1px solid #dfc38b; border-radius: 2px; padding: .85rem; background: #0c1310; color: #dfc38b; font: 700 2rem/1 ui-monospace, monospace; text-align: center; letter-spacing: .5em; }
+.result-panel { border: 1px solid #536052; padding: 1.25rem; margin: 1.5rem 0; }
+.result-panel h3 { font: 400 1.8rem/1.2 Georgia, serif; margin: .6rem 0; }
+.video-placeholder { min-height: 11rem; margin: 1rem 0; display: grid; place-items: center; border: 1px dashed #756f5e; background: #0c1310; color: #9fa89f; font-size: .75rem; letter-spacing: .12em; text-align: center; }
+.mission-back { margin-top: 1rem; }
+.countdown-card { margin: 2rem 0; border-block: 1px solid #536052; padding: 1.5rem 0; text-align: center; }
+.countdown-card p { margin: 0; color: #b8c2b9; }
+.countdown-card strong { display: block; margin-top: .5rem; color: #dfc38b; font: 400 clamp(3.5rem, 18vw, 6rem)/1 Georgia, serif; font-variant-numeric: tabular-nums; }
+.photo-puzzle { display: grid; grid-template-columns: repeat(4, 1fr); width: min(100%, 27rem); aspect-ratio: 3 / 4; margin: 1.5rem auto 0; border: 1px solid #dfc38b; background: #0c1310; }
+.puzzle-tile { min-width: 0; min-height: 0; padding: 0; border: 1px solid rgba(17, 25, 22, .55); border-radius: 0; background-repeat: no-repeat; background-size: 400% 400%; }
+.puzzle-tile:hover { filter: brightness(1.06); }
+.puzzle-tile.selected { outline: 3px solid #dfc38b; outline-offset: -3px; filter: brightness(1.18); }
+.puzzle-meta { display: flex; justify-content: space-between; gap: 1rem; width: min(100%, 27rem); margin: .7rem auto 1rem; color: #b8c2b9; font-size: .8rem; letter-spacing: .06em; }
+.puzzle-stage > button { width: min(100%, 27rem); margin-inline: auto; }
 :focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
 footer { border-top: 1px solid #536052; padding-top: 1.5rem; flex-wrap: wrap; line-height: 1.6; }
 [hidden] { display: none !important; }
 @media (max-width: 420px) { .actions { grid-template-columns: 1fr; } }
-@media (max-width: 360px) { header, footer { letter-spacing: .06em; } .photo-grid { grid-template-columns: 1fr; } }
+@media (max-width: 360px) { header, footer { letter-spacing: .06em; } .photo-grid, .target-list { grid-template-columns: 1fr; } }

@@ -58,17 +58,61 @@
       </nav>
     </section>
     <section id="mission" aria-labelledby="mission-title" hidden>
-      <p class="eyebrow">OPERACIÓN EN CURSO // 01</p>
-      <h2 id="mission-title" tabindex="-1">Tu primera<br><em>misión.</em></h2>
-      <p class="message">Cada historia tiene un comienzo. Este es el tuyo.</p>
-      <div class="record">
-        <p class="eyebrow">MISIÓN EN PREPARACIÓN</p>
-        <p>Aquí aparecerá la primera pista, Ainhoa.</p>
-        <p class="status">Versión de prueba · Los 3 elementos siguen bloqueados.</p>
+      <p class="eyebrow">MISIÓN 01 // ARCHIVO DE NOMBRES</p>
+      <h2 id="mission-title" tabindex="-1">Encuentra los<br><em>nombres infiltrados.</em></h2>
+      <p class="message">En cada nombre, una letra ha sido sustituida por un número. Arrastra el dedo sobre las cuatro palabras y guarda los números en este orden.</p>
+      <ol class="target-list" aria-label="Palabras que debes encontrar">
+        <li data-word="P4PAYA">PAPAYA <span>pendiente</span></li>
+        <li data-word="J1MMY">JIMMY <span>pendiente</span></li>
+        <li data-word="L4URA">LAURA <span>pendiente</span></li>
+        <li data-word="MARIB3L">MARIBEL <span>pendiente</span></li>
+      </ol>
+      <div id="word-grid" class="word-grid" role="grid" aria-label="Sopa de letras de veinte por veinte"></div>
+      <p id="word-status" class="status live-status" aria-live="polite">0 de 4 palabras encontradas</p>
+      <form id="code-form" class="code-panel" hidden>
+        <label for="code">Introduce los cuatro números</label>
+        <input id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required>
+        <button type="submit">Comprobar código <span aria-hidden="true">→</span></button>
+      </form>
+      <div id="error-video" class="result-panel" hidden>
+        <p class="eyebrow">CÓDIGO RECHAZADO</p>
+        <div class="video-placeholder">VÍDEO DE ERROR PENDIENTE</div>
+        <button id="retry-code" type="button">Intentar de nuevo <span aria-hidden="true">↻</span></button>
       </div>
-      <!-- Añadir aquí el contenido real: fotos en images/ y vídeos en videos/.
-           Vídeos: usar controls, playsinline y preload="none". -->
-      <button type="button" data-back="memories" class="secondary">Volver a los recuerdos <span aria-hidden="true">↶</span></button>
+      <div id="gift-one" class="result-panel" hidden>
+        <p class="eyebrow">ELEMENTO 01 RECUPERADO</p>
+        <h3>Primer regalo desbloqueado.</h3>
+        <p class="message">Aquí aparecerá el vídeo o la ubicación del primer regalo.</p>
+        <button id="begin-wait" type="button">Continuar <span aria-hidden="true">→</span></button>
+      </div>
+      <button type="button" data-back="memories" class="secondary mission-back">Volver a los recuerdos <span aria-hidden="true">↶</span></button>
+    </section>
+    <section id="waiting" aria-labelledby="waiting-title" hidden>
+      <p class="eyebrow">OPERACIÓN EN CURSO</p>
+      <h2 id="waiting-title" tabindex="-1">Preparando el<br><em>siguiente expediente.</em></h2>
+      <div class="countdown-card">
+        <p>Siguiente misión disponible en</p>
+        <strong id="countdown">20:00</strong>
+      </div>
+      <p class="message">Tiempo para investigar el primer elemento. Emilio y Papaya no harán declaraciones.</p>
+    </section>
+    <section id="puzzles" aria-labelledby="puzzles-title" hidden>
+      <p class="eyebrow">MISIÓN 02 // ARCHIVO VISUAL</p>
+      <h2 id="puzzles-title" tabindex="-1">Reconstruye los<br><em>dos recuerdos.</em></h2>
+      <p id="puzzle-instructions" class="message">Toca dos piezas para intercambiarlas. Completa primero el archivo de la piscina.</p>
+      <div id="puzzle-stage" class="puzzle-stage">
+        <div id="photo-puzzle" class="photo-puzzle" role="grid" aria-label="Rompecabezas fotográfico de dieciséis piezas"></div>
+        <div class="puzzle-meta">
+          <span id="puzzle-label">ARCHIVO 01 / 02</span>
+          <span id="move-count">0 movimientos</span>
+        </div>
+        <button id="puzzle-hint" type="button" class="secondary">Colocar una pieza <span aria-hidden="true">＋</span></button>
+      </div>
+      <div id="puzzles-complete" class="result-panel" hidden>
+        <p class="eyebrow">ARCHIVOS RECUPERADOS</p>
+        <h3>Los dos recuerdos están completos.</h3>
+        <p class="message">Aquí aparecerá el vídeo o la ubicación del segundo regalo.</p>
+      </div>
     </section>
     <footer>SOLO PARA TI <span aria-hidden="true">✦</span> 36 ES SOLO EL PRINCIPIO</footer>
   </main>
