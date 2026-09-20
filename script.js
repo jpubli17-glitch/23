@@ -1,15 +1,26 @@
 'use strict';
 
-const STORAGE_KEY = 'operacion-cumpleanos-v5';
+const STORAGE_KEY = 'operacion-cumpleanos-v6';
 const WAIT_MS = 20 * 60 * 1000;
-const STORY = [
-  { kicker: '23 DE SEPTIEMBRE DE 1990', title: 'Empieza la<br><em>historia.</em>', text: 'Nace Ainhoa. Con el tiempo también llegarían Purpu, Ainhoria y, para Jimmy, Chuly.' },
-  { kicker: 'LOS PRIMEROS CAPÍTULOS', title: '13.149<br><em>amaneceres.</em>', text: 'Ha cambiado mucho desde entonces. Por suerte, la sonrisa ya estaba en las primeras versiones.', image: 'images/story/01-inicios.jpg', alt: 'Ainhoa de joven con una amiga en clase' },
-  { kicker: 'GENTE QUE SE QUEDA', title: 'Muchas vidas<br><em>en una.</em>', text: 'Amigas, noches, planes que parecían pequeños y acabaron siendo historias que todavía se cuentan.', image: 'images/story/02-amigas.jpg', alt: 'Ainhoa de joven con sus amigas' },
-  { kicker: 'CÁLCULO APROXIMADO', title: '303 millones de<br><em>respiraciones.</em>', text: 'Unas tranquilas, otras entre risas y unas cuantas intentando recuperar el aire después de algún plan brillante.', image: 'images/story/03-historias.jpg', alt: 'Ainhoa sonriendo en uno de sus recuerdos' },
-  { kicker: 'MOTOR INTERNO', title: '1.325 millones de<br><em>latidos.</em>', text: 'La cifra es aproximada. En su caso puede ser mayor: ya sabemos que el corazón no le cabe en el pecho.', image: 'images/story/04-gym.jpg', alt: 'Ainhoa sonriendo con una amiga en el gimnasio' },
-  { kicker: 'HOY // NIVEL 36', title: 'Y aquí estamos,<br><em>Chuly.</em>', text: 'Treinta y seis vueltas al Sol, muchas versiones, bastantes países y la misma facilidad para acabar metida en una historia.', image: 'images/story/05-cumple-36.jpg', alt: 'Ainhoa celebrando su cumpleaños 36 con un pañuelo amarillo' }
-];
+const STORIES = {
+  life: [
+    { kicker: 'TAL DÍA COMO HOY', title: 'Hace 36 años<br><em>empezó todo.</em>', text: 'Desde aquel 23 de septiembre han pasado 13.149 días. Parece mucho, pero se han quedado cortos para todo lo que ha ocurrido.' },
+    { kicker: '36 VUELTAS AL SOL', title: '13.149<br><em>amaneceres.</em>', text: 'Días normales, días enormes, viajes, cambios de planes y más de una historia que empezó sin avisar.' },
+    { kicker: 'CÁLCULO APROXIMADO', title: '303 millones de<br><em>respiraciones.</em>', text: 'Unas tranquilas, otras entre risas y unas cuantas intentando recuperar el aire después de algún plan brillante.' },
+    { kicker: 'MOTOR INTERNO', title: '1.325 millones de<br><em>latidos.</em>', text: 'La cifra es aproximada. En su caso puede ser mayor: ya sabemos que el corazón no le cabe en el pecho.' },
+    { kicker: 'LOS PRIMEROS CAPÍTULOS', title: 'Ha cambiado.<br><em>Por suerte.</em>', text: 'Han cambiado los años, los planes y alguna que otra versión. La sonrisa ya estaba allí desde el principio.', image: 'images/story/01-inicios.jpg', alt: 'Ainhoa de joven con una amiga en clase' },
+    { kicker: 'AMIGAS // MUCHAS HISTORIAS', title: 'Gente que<br><em>se queda.</em>', text: 'No se llega hasta aquí sola. Hay amigas, noches, viajes y momentos pequeños que acabaron siendo parte de la historia.', image: 'images/story/02-amigas.jpg', alt: 'Ainhoa de joven con sus amigas' },
+    { kicker: 'EL TIEMPO PASA', title: 'La risa<br><em>se mantiene.</em>', text: 'Cambian los sitios y las épocas. La facilidad para montar un plan y reírse sigue exactamente donde estaba.', image: 'images/story/03-historias.jpg', alt: 'Ainhoa sonriendo en uno de sus recuerdos' },
+    { kicker: 'MÁS GENTE, MÁS CAPÍTULOS', title: 'Una vida bien<br><em>acompañada.</em>', text: 'Familia, amigas y toda la gente que ha ido sumando. Ese también es uno de sus grandes logros.', image: 'images/story/04-gym.jpg', alt: 'Ainhoa sonriendo con una amiga en el gimnasio' },
+    { kicker: 'HOY // NIVEL 36', title: 'Treinta y seis<br><em>años después.</em>', text: 'Muchos países, muchas versiones y la misma capacidad para ver el lado bueno incluso cuando el plan se complica.', image: 'images/story/05-cumple-36.jpg', alt: 'Ainhoa celebrando su cumpleaños 36 con un pañuelo amarillo' }
+  ],
+  achievements: [
+    { kicker: 'OBJETIVO CONSEGUIDO', title: 'Una casa<br><em>propia.</em>', text: 'Uno de esos objetivos que parecían lejanos ya está cumplido. Una casa suya, conseguida paso a paso y sin que nadie le regalase nada.' },
+    { kicker: 'PRIORIDADES IMPORTANTES', title: 'Y un sofá<br><em>como debe ser.</em>', text: 'Porque comprar una casa está muy bien, pero tener un sofá enorme donde disfrutarla era parte indispensable del proyecto.' },
+    { kicker: 'TRABAJO Y FORMACIÓN', title: 'Carrera, máster<br><em>y mucho esfuerzo.</em>', text: 'Ha estudiado, se ha preparado y se ha ganado cada paso. Hoy trabaja en una de las empresas más grandes del mundo. Es para estar muy orgullosa.' },
+    { kicker: 'LO QUE NO SALE EN EL CURRÍCULUM', title: 'Todo lo demás<br><em>que ha construido.</em>', text: 'Una vida llena de gente que la quiere, una casa, objetivos cumplidos y otros todavía por estrenar. El expediente debería terminar aquí. Pero algo vuelve a fallar.' }
+  ]
+};
 const WORD_SIZE = 13;
 const WORDS = [
   { value: 'P4PAYA', start: [1, 1], direction: [0, 1] },
@@ -22,8 +33,8 @@ const PUZZLES = [
   { image: 'images/restaurante.jpeg', label: 'FOTO 02 / 02' }
 ];
 const defaultState = {
-  screen: 'intro', storyIndex: 0, puzzleIndex: 0, puzzleBoards: [], puzzleMoves: [0, 0], puzzlesComplete: false,
-  nextMissionAt: 0, foundWords: [], hintCount: 0, codeAttempts: 0, codeStage: 'entry', giftUnlocked: false
+  screen: 'intro', storyPhase: 'life', storyIndex: 0, puzzleIndex: 0, puzzleBoards: [], puzzleMoves: [0, 0], puzzlesComplete: false,
+  nextMissionAt: 0, foundWords: [], hintCount: 0, codeAttempts: 0, codeStage: 'entry', giftUnlocked: false, finalUnlockAt: 0
 };
 
 function loadState() {
@@ -42,7 +53,7 @@ const codeForm = document.querySelector('#code-form');
 const codeInput = document.querySelector('#code');
 const lockIcon = document.querySelector('#lock-icon');
 const errorVideo = document.querySelector('#error-video');
-const giftOne = document.querySelector('#gift-one');
+const codeOpen = document.querySelector('#code-open');
 let selection = null;
 let selectedTile = null;
 let countdownTimer = null;
@@ -57,29 +68,32 @@ function showScreen(id, persist = true) {
   if (id === 'story') renderStory();
   if (id === 'puzzles') renderPuzzle();
   if (id === 'waiting') startCountdown();
+  if (id === 'final-wait') startFinalCountdown();
   if (id === 'mission') paintFoundWords();
   if (id === 'lock') renderLock();
 }
 
 function renderStory() {
-  const slide = STORY[state.storyIndex];
+  const slides = STORIES[state.storyPhase];
+  const slide = slides[state.storyIndex];
   const wrap = document.querySelector('#story-photo-wrap');
   const photo = document.querySelector('#story-photo');
   document.querySelector('#story-kicker').textContent = slide.kicker;
   document.querySelector('#story-title').innerHTML = slide.title;
   document.querySelector('#story-text').textContent = slide.text;
-  document.querySelector('#story-progress-bar').style.width = `${((state.storyIndex + 1) / STORY.length) * 100}%`;
+  document.querySelector('#story-progress-bar').style.width = `${((state.storyIndex + 1) / slides.length) * 100}%`;
   wrap.hidden = !slide.image;
   if (slide.image) { photo.src = slide.image; photo.alt = slide.alt; }
-  document.querySelector('#story-next').innerHTML = state.storyIndex === STORY.length - 1
+  document.querySelector('#story-next').innerHTML = state.storyIndex === slides.length - 1
     ? 'Cerrar el archivo <span aria-hidden="true">→</span>'
     : 'Seguir <span aria-hidden="true">→</span>';
 }
 
 document.querySelector('#start').addEventListener('click', () => showScreen('story'));
 document.querySelector('#story-next').addEventListener('click', () => {
-  if (state.storyIndex < STORY.length - 1) { state.storyIndex += 1; saveState(); renderStory(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-  else showScreen('sealed');
+  const slides = STORIES[state.storyPhase];
+  if (state.storyIndex < slides.length - 1) { state.storyIndex += 1; saveState(); renderStory(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  else showScreen(state.storyPhase === 'life' ? 'glitch-one' : 'glitch-two');
 });
 
 function seededRandom(seed) { let value = seed; return () => ((value = (value * 9301 + 49297) % 233280) / 233280); }
@@ -132,7 +146,7 @@ function startCountdown() {
   clearInterval(countdownTimer);
   const update = () => {
     const remaining = Math.max(0, state.nextMissionAt - Date.now());
-    if (!state.nextMissionAt || remaining === 0) { clearInterval(countdownTimer); showScreen('mission'); return; }
+    if (!state.nextMissionAt || remaining === 0) { clearInterval(countdownTimer); state.storyPhase = 'achievements'; state.storyIndex = 0; saveState(); showScreen('story'); return; }
     const minutes = Math.floor(remaining / 60000); const seconds = Math.floor((remaining % 60000) / 1000);
     document.querySelector('#countdown').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
@@ -175,7 +189,7 @@ grid.addEventListener('pointerup', finishSelection); grid.addEventListener('poin
 
 function renderLock() {
   const isError = state.codeStage === 'error' && !state.giftUnlocked; lockIcon.classList.toggle('open', state.giftUnlocked);
-  codeForm.hidden = isError || state.giftUnlocked; errorVideo.hidden = !isError; giftOne.hidden = !state.giftUnlocked;
+  codeForm.hidden = isError || state.giftUnlocked; errorVideo.hidden = !isError; codeOpen.hidden = !state.giftUnlocked;
 }
 codeForm.addEventListener('submit', (event) => {
   event.preventDefault(); state.codeAttempts += 1;
@@ -183,8 +197,22 @@ codeForm.addEventListener('submit', (event) => {
   saveState(); renderLock();
 });
 document.querySelector('#retry-code').addEventListener('click', () => { state.codeStage = 'entry'; saveState(); renderLock(); codeInput.value = ''; codeInput.focus(); });
+document.querySelector('#final-code-form').addEventListener('submit', (event) => {
+  event.preventDefault(); if (!state.finalUnlockAt) state.finalUnlockAt = Date.now() + 60 * 60 * 1000; saveState(); showScreen('final-wait');
+});
+function startFinalCountdown() {
+  clearInterval(countdownTimer);
+  const update = () => {
+    const remaining = Math.max(0, state.finalUnlockAt - Date.now());
+    if (!state.finalUnlockAt || remaining === 0) { clearInterval(countdownTimer); showScreen('destination'); return; }
+    const hours = Math.floor(remaining / 3600000), minutes = Math.floor((remaining % 3600000) / 60000), seconds = Math.floor((remaining % 60000) / 1000);
+    document.querySelector('#final-countdown').textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
+  update(); countdownTimer = setInterval(update, 1000);
+}
 document.addEventListener('click', (event) => { const button = event.target.closest('[data-next]'); if (button) showScreen(button.dataset.next); });
 
 buildWordGrid();
-if (state.screen === 'waiting' && state.nextMissionAt && state.nextMissionAt <= Date.now()) state.screen = 'mission';
+if (state.screen === 'waiting' && state.nextMissionAt && state.nextMissionAt <= Date.now()) { state.storyPhase = 'achievements'; state.storyIndex = 0; state.screen = 'story'; }
+if (state.screen === 'final-wait' && state.finalUnlockAt && state.finalUnlockAt <= Date.now()) state.screen = 'destination';
 showScreen(state.screen, false);
