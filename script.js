@@ -2,6 +2,7 @@
 
 const STORAGE_KEY = 'operacion-cumpleanos-v6';
 const WAIT_MS = 20 * 60 * 1000;
+const FINAL_CODE = '7392';
 const STORIES = {
   life: [
     { kicker: 'TAL DÍA COMO HOY', title: 'Hace 36 años<br><em>empezó todo.</em>', text: 'Desde aquel 23 de septiembre han pasado 13.149 días. Parece mucho, pero se han quedado cortos para todo lo que ha ocurrido.' },
@@ -198,7 +199,13 @@ codeForm.addEventListener('submit', (event) => {
 });
 document.querySelector('#retry-code').addEventListener('click', () => { state.codeStage = 'entry'; saveState(); renderLock(); codeInput.value = ''; codeInput.focus(); });
 document.querySelector('#final-code-form').addEventListener('submit', (event) => {
-  event.preventDefault(); if (!state.finalUnlockAt) state.finalUnlockAt = Date.now() + 60 * 60 * 1000; saveState(); showScreen('final-wait');
+  event.preventDefault();
+  const input = document.querySelector('#final-code');
+  const status = document.querySelector('#final-code-status');
+  if (input.value !== FINAL_CODE) { status.textContent = 'Código incorrecto. Revisa la tarjeta que acompaña al regalo.'; input.select(); return; }
+  status.textContent = '';
+  if (!state.finalUnlockAt) state.finalUnlockAt = Date.now() + 60 * 60 * 1000;
+  saveState(); showScreen('final-wait');
 });
 function startFinalCountdown() {
   clearInterval(countdownTimer);
