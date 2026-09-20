@@ -33,10 +33,7 @@
         <p>Desde entonces ha coleccionado momentos, personas y alguna que otra aventura que merece permanecer clasificada.</p>
         <p>Hoy, en su cumpleaños, toca abrir el expediente.</p>
       </div>
-      <nav class="actions" aria-label="Navegación de la historia">
-        <button type="button" data-back="intro" class="secondary">Volver <span aria-hidden="true">↶</span></button>
-        <button type="button" data-next="memories">Ver recuerdos <span aria-hidden="true">→</span></button>
-      </nav>
+      <button type="button" data-next="memories">Ver recuerdos <span aria-hidden="true">→</span></button>
     </section>
     <section id="memories" aria-labelledby="memories-title" hidden>
       <p class="eyebrow">ARCHIVO VISUAL // 02 ELEMENTOS</p>
@@ -52,34 +49,36 @@
           <figcaption>Y otro que tenía que estar aquí.</figcaption>
         </figure>
       </div>
-      <nav class="actions" aria-label="Navegación de recuerdos">
-        <button type="button" data-back="story" class="secondary">Volver <span aria-hidden="true">↶</span></button>
-        <button type="button" data-next="mission">Vamos al lío <span aria-hidden="true">↗</span></button>
-      </nav>
+      <button type="button" data-next="mission">Vamos al lío <span aria-hidden="true">↗</span></button>
     </section>
-    <section id="mission" aria-labelledby="mission-title" hidden>
+    <section id="mission" class="challenge-screen" aria-labelledby="mission-title" hidden>
       <p class="eyebrow">MISIÓN 01 // ARCHIVO DE NOMBRES</p>
       <h2 id="mission-title" tabindex="-1">Encuentra los<br><em>nombres infiltrados.</em></h2>
       <p class="message">Hay cuatro nombres escondidos. En cada uno, una letra ha sido sustituida por un número. Arrastra el dedo para encontrarlos y guarda los cuatro números.</p>
-      <div id="word-grid" class="word-grid" role="grid" aria-label="Sopa de letras de quince por quince"></div>
+      <div id="word-grid" class="word-grid" role="grid" aria-label="Sopa de letras de trece por trece"></div>
       <p id="word-status" class="status live-status" aria-live="polite">0 de 4 palabras encontradas</p>
+    </section>
+    <section id="lock" class="challenge-screen" aria-labelledby="lock-title" hidden>
+      <p class="eyebrow">MISIÓN 01 // CÓDIGO DE ACCESO</p>
+      <div id="lock-icon" class="lock-icon" aria-hidden="true"><span></span></div>
+      <h2 id="lock-title" tabindex="-1">Introduce el<br><em>código.</em></h2>
       <form id="code-form" class="code-panel" hidden>
         <label for="code">Introduce los cuatro números</label>
         <input id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required>
         <button type="submit">Comprobar código <span aria-hidden="true">→</span></button>
       </form>
       <div id="error-video" class="result-panel" hidden>
-        <p class="eyebrow">CÓDIGO RECHAZADO</p>
+        <p class="lock-result closed">CERRADO</p>
         <div class="video-placeholder">VÍDEO DE ERROR PENDIENTE</div>
         <button id="retry-code" type="button">Intentar de nuevo <span aria-hidden="true">↻</span></button>
       </div>
       <div id="gift-one" class="result-panel" hidden>
+        <p class="lock-result opened">ABIERTO</p>
         <p class="eyebrow">ELEMENTO 01 RECUPERADO</p>
         <h3>Primer regalo desbloqueado.</h3>
         <p class="message">Aquí aparecerá el vídeo o la ubicación del primer regalo.</p>
         <button id="begin-wait" type="button">Continuar <span aria-hidden="true">→</span></button>
       </div>
-      <button type="button" data-back="memories" class="secondary mission-back">Volver a los recuerdos <span aria-hidden="true">↶</span></button>
     </section>
     <section id="waiting" aria-labelledby="waiting-title" hidden>
       <p class="eyebrow">OPERACIÓN EN CURSO</p>
@@ -90,9 +89,9 @@
       </div>
       <p class="message">Tiempo para investigar el primer elemento. Emilio y Papaya no harán declaraciones.</p>
     </section>
-    <section id="puzzles" aria-labelledby="puzzles-title" hidden>
+    <section id="puzzles" class="challenge-screen" aria-labelledby="puzzles-title" hidden>
       <p class="eyebrow">MISIÓN 02 // ARCHIVO VISUAL</p>
-      <h2 id="puzzles-title" tabindex="-1">Reconstruye los<br><em>dos recuerdos.</em></h2>
+      <h2 id="puzzles-title" tabindex="-1">Reconstruye el<br><em>recuerdo.</em></h2>
       <p id="puzzle-instructions" class="message">Toca dos piezas para intercambiarlas. Completa primero el archivo de la piscina.</p>
       <div id="puzzle-stage" class="puzzle-stage">
         <div id="photo-puzzle" class="photo-puzzle" role="grid" aria-label="Rompecabezas fotográfico de dieciséis piezas"></div>

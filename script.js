@@ -1,13 +1,13 @@
 'use strict';
 
-const STORAGE_KEY = 'operacion-cumpleanos-v3';
+const STORAGE_KEY = 'operacion-cumpleanos-v4';
 const WAIT_MS = 20 * 60 * 1000;
-const WORD_SIZE = 15;
+const WORD_SIZE = 13;
 const WORDS = [
-  { value: 'P4PAYA', start: [1, 2], direction: [0, 1] },
-  { value: 'J1MMY', start: [2, 13], direction: [1, 0] },
-  { value: 'L4URA', start: [7, 12], direction: [1, -1] },
-  { value: 'MARIB3L', start: [13, 13], direction: [0, -1] }
+  { value: 'P4PAYA', start: [1, 1], direction: [0, 1] },
+  { value: 'J1MMY', start: [2, 11], direction: [1, 0] },
+  { value: 'L4URA', start: [7, 11], direction: [1, -1] },
+  { value: 'MARIB3L', start: [11, 11], direction: [0, -1] }
 ];
 const PUZZLES = [
   { image: 'images/piscina.jpeg', label: 'ARCHIVO 01 / 02' },
@@ -30,6 +30,7 @@ const start = document.querySelector('#start');
 const grid = document.querySelector('#word-grid');
 const codeForm = document.querySelector('#code-form');
 const codeInput = document.querySelector('#code');
+const lockIcon = document.querySelector('#lock-icon');
 const wordStatus = document.querySelector('#word-status');
 const errorVideo = document.querySelector('#error-video');
 const giftOne = document.querySelector('#gift-one');
@@ -48,6 +49,7 @@ function showScreen(id, persist = true) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (id === 'waiting') startCountdown();
   if (id === 'puzzles') renderPuzzle();
+  if (id === 'lock') renderLock();
 }
 
 function seededRandom(seed) {
@@ -129,7 +131,17 @@ function paintFoundWords() {
     if (word) wordIndexes(word).forEach((index) => grid.children[index]?.classList.add('found'));
   });
   wordStatus.textContent = `${state.foundWords.length} de 4 palabras encontradas`;
-  codeForm.hidden = state.foundWords.length !== WORDS.length || state.firstGiftUnlocked;
+  if (state.foundWords.length === WORDS.length && state.screen === 'mission') {
+    window.setTimeout(() => showScreen('lock'), 650);
+  }
+}
+
+function renderLock() {
+  const isError = state.codeStage === 'error' && !state.firstGiftUnlocked;
+  lockIcon.classList.toggle('open', state.firstGiftUnlocked);
+  codeForm.hidden = isError || state.firstGiftUnlocked;
+  errorVideo.hidden = !isError;
+  giftOne.hidden = !state.firstGiftUnlocked;
 }
 
 grid.addEventListener('pointerdown', (event) => {
@@ -157,14 +169,12 @@ codeForm.addEventListener('submit', (event) => {
   if (state.codeAttempts === 1) {
     state.codeStage = 'error';
     saveState();
-    errorVideo.hidden = false;
-    errorVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    renderLock();
   } else {
     state.firstGiftUnlocked = true;
     state.codeStage = 'success';
     saveState();
-    giftOne.hidden = false;
-    giftOne.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    renderLock();
   }
 });
 
@@ -286,18 +296,11 @@ start.hidden = false;
 start.addEventListener('click', () => showScreen('story'));
 
 document.addEventListener('click', (event) => {
-  const button = event.target.closest('[data-next], [data-back]');
+  const button = event.target.closest('[data-next]');
   if (!button) return;
-  showScreen(button.dataset.next || button.dataset.back);
+  showScreen(button.dataset.next);
 });
 
 buildWordGrid();
-if (state.codeStage === 'error' && !state.firstGiftUnlocked) {
-  errorVideo.hidden = false;
-  codeForm.hidden = true;
-} else if (state.firstGiftUnlocked) {
-  giftOne.hidden = false;
-  codeForm.hidden = true;
-}
 if (state.screen === 'waiting' && state.secondAvailableAt <= Date.now()) state.screen = 'puzzles';
 showScreen(state.screen, false);
