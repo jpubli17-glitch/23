@@ -7,6 +7,16 @@ header { padding-bottom: 1.5rem; border-bottom: 1px solid #536052; }
 .stamp { border: 1px solid #dfc38b; padding: .5rem .7rem; color: #dfc38b; white-space: nowrap; }
 section { padding: clamp(2rem, 7vw, 3.5rem) 0; }
 .challenge-screen { width: min(calc(100vw - 1.5rem), 48rem); min-height: calc(100svh - 7rem); position: relative; left: 50%; transform: translateX(-50%); padding-inline: clamp(.25rem, 3vw, 1.5rem); display: flex; flex-direction: column; justify-content: center; }
+.story-screen, .sealed-screen { width: min(calc(100vw - 1.5rem), 44rem); min-height: calc(100svh - 7rem); position: relative; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; justify-content: center; }
+.story-progress { height: 3px; width: 100%; margin-bottom: 1.3rem; overflow: hidden; background: #34423a; }
+.story-progress span { display: block; height: 100%; width: 0; background: #dfc38b; transition: width .35s ease; }
+.story-photo-wrap { width: min(100%, 32rem); max-height: 52svh; margin: .35rem auto 1rem; overflow: hidden; border: 1px solid #536052; background: #0c1310; }
+.story-photo { display: block; width: 100%; height: min(50svh, 34rem); object-fit: contain; object-position: center; animation: reveal .45s ease both; }
+.story-text { margin: 0 0 1.3rem; color: #d4d9d3; font-size: clamp(1rem, 3.6vw, 1.15rem); }
+.story-screen h2 { margin: .65rem 0; font-size: clamp(2.25rem, 8vw, 4rem); }
+.sealed-screen { text-align: center; }
+.sealed-screen .message { margin-inline: auto; }
+@keyframes reveal { from { opacity: 0; transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
 .eyebrow { font-size: .875rem; letter-spacing: .13em; line-height: 1.6; color: #dfc38b; }
 h1, h2 { font-family: Georgia, serif; font-size: clamp(2.5rem, 9vw, 4.5rem); font-weight: 400; letter-spacing: -.045em; line-height: 1.08; margin: 1.4rem 0; }
 em { color: #dfc38b; font-weight: 400; }
@@ -66,4 +76,5 @@ footer { border-top: 1px solid #536052; padding-top: 1.5rem; flex-wrap: wrap; li
 [hidden] { display: none !important; }
 @media (max-width: 420px) { .actions { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { body { padding: .75rem; } .challenge-screen h2 { font-size: clamp(2rem, 10vw, 3rem); margin: .65rem 0; } .challenge-screen .message { font-size: .95rem; margin-top: .35rem; } }
+@media (max-width: 520px) { .story-screen, .sealed-screen { min-height: calc(100svh - 5.5rem); } .story-photo { height: min(46svh, 29rem); } .story-photo-wrap { margin-bottom: .6rem; } }
 @media (max-width: 360px) { header, footer { letter-spacing: .06em; } .photo-grid { grid-template-columns: 1fr; } }

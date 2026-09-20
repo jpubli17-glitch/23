@@ -6,7 +6,6 @@
   <meta name="theme-color" content="#111916">
   <meta name="description" content="Ainhoa, tu próxima misión empieza aquí.">
   <title>Operación Cumpleaños · Ainhoa</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111916'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='36' fill='%23dfc38b'%3E36%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -16,43 +15,47 @@
     <section id="intro" aria-labelledby="intro-title">
       <p class="eyebrow">AINHOA // ACCESO AUTORIZADO</p>
       <h1 id="intro-title">Operación<br><em>Cumpleaños.</em></h1>
-      <p class="message">Ainhoa, hay cosas que solo tú puedes desbloquear.</p>
-      <div class="record">
-        <p class="eyebrow">EXPEDIENTE CARGADO</p>
-        <p class="elements">Elementos clasificados detectados: <strong>3</strong></p>
-        <p class="status">Estado: BLOQUEADOS</p>
-      </div>
-      <button id="start" type="button" hidden>Iniciar operación <span aria-hidden="true">↗</span></button>
-      <noscript><p>Activa JavaScript en tu navegador para iniciar la operación.</p></noscript>
+      <p class="message">Antes de ir al lío, toca repasar cómo hemos llegado hasta aquí.</p>
+      <div class="record"><p class="eyebrow">EXPEDIENTE CARGADO</p><p class="elements">Nivel actual: <strong>36</strong></p><p class="status">Historia preparada</p></div>
+      <button id="start" type="button">Empezar la historia <span aria-hidden="true">→</span></button>
     </section>
-    <section id="story" aria-labelledby="story-title" hidden>
-      <p class="eyebrow">CAPÍTULO 01 // 36 VUELTAS AL SOL</p>
-      <h2 id="story-title" tabindex="-1">Antes de empezar,<br><em>una pequeña historia.</em></h2>
-      <div class="story-copy">
-        <p>Hace 36 años llegó al mundo una persona capaz de convertir cualquier plan en una historia y cualquier día normal en un recuerdo.</p>
-        <p>Desde entonces ha coleccionado momentos, personas y alguna que otra aventura que merece permanecer clasificada.</p>
-        <p>Hoy, en su cumpleaños, toca abrir el expediente.</p>
-      </div>
-      <button type="button" data-next="memories">Ver recuerdos <span aria-hidden="true">→</span></button>
+    <section id="story" class="story-screen" aria-labelledby="story-title" hidden>
+      <div class="story-progress" aria-hidden="true"><span id="story-progress-bar"></span></div>
+      <p id="story-kicker" class="eyebrow"></p>
+      <div id="story-photo-wrap" class="story-photo-wrap" hidden><img id="story-photo" class="story-photo" src="" alt=""></div>
+      <h2 id="story-title" tabindex="-1"></h2>
+      <p id="story-text" class="story-text"></p>
+      <button id="story-next" type="button">Seguir <span aria-hidden="true">→</span></button>
     </section>
-    <section id="memories" aria-labelledby="memories-title" hidden>
-      <p class="eyebrow">ARCHIVO VISUAL // 02 ELEMENTOS</p>
-      <h2 id="memories-title" tabindex="-1">Dos pruebas de<br><em>una gran historia.</em></h2>
-      <p class="message">Antes de ir al lío, hay recuerdos que merecen volver a aparecer.</p>
-      <div class="photo-grid">
-        <figure>
-          <div class="photo-placeholder" role="img" aria-label="Primera foto pendiente de añadir"><span>FOTO 01</span></div>
-          <figcaption>Un momento para recordar.</figcaption>
-        </figure>
-        <figure>
-          <div class="photo-placeholder" role="img" aria-label="Segunda foto pendiente de añadir"><span>FOTO 02</span></div>
-          <figcaption>Y otro que tenía que estar aquí.</figcaption>
-        </figure>
+    <section id="sealed" class="sealed-screen" aria-labelledby="sealed-title" hidden>
+      <p class="eyebrow">FIN DEL ARCHIVO // NIVEL 36</p>
+      <div class="lock-icon" aria-hidden="true"><span></span></div>
+      <h2 id="sealed-title" tabindex="-1">La historia queda<br><em>bloqueada.</em></h2>
+      <p class="message">A partir de aquí, los recuerdos no se miran. Se reconstruyen.</p>
+      <button type="button" data-next="puzzles">Iniciar minijuegos <span aria-hidden="true">↗</span></button>
+    </section>
+    <section id="puzzles" class="challenge-screen" aria-labelledby="puzzles-title" hidden>
+      <p class="eyebrow">MINIJUEGO 01 // ARCHIVO VISUAL</p>
+      <h2 id="puzzles-title" tabindex="-1">Reconstruye el<br><em>recuerdo.</em></h2>
+      <p id="puzzle-instructions" class="message">Toca dos piezas para intercambiarlas.</p>
+      <div id="puzzle-stage" class="puzzle-stage">
+        <div id="photo-puzzle" class="photo-puzzle" role="grid" aria-label="Rompecabezas fotográfico de dieciséis piezas"></div>
+        <div class="puzzle-meta"><span id="puzzle-label">FOTO 01 / 02</span><span id="move-count">0 movimientos</span></div>
+        <button id="puzzle-hint" type="button" class="secondary">Colocar una pieza <span aria-hidden="true">＋</span></button>
       </div>
-      <button type="button" data-next="mission">Vamos al lío <span aria-hidden="true">↗</span></button>
+      <div id="puzzles-complete" class="result-panel" hidden>
+        <p class="eyebrow">ARCHIVOS RECUPERADOS</p><h3>Las dos fotos están completas.</h3>
+        <p class="message">La siguiente prueba todavía se está preparando.</p>
+        <button id="begin-wait" type="button">Continuar <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+    <section id="waiting" class="challenge-screen" aria-labelledby="waiting-title" hidden>
+      <p class="eyebrow">OPERACIÓN EN CURSO</p><h2 id="waiting-title" tabindex="-1">Siguiente misión<br><em>en preparación.</em></h2>
+      <div class="countdown-card"><p>Siguiente misión disponible en</p><strong id="countdown">20:00</strong></div>
+      <p class="message">Puedes cerrar la página. El contador seguirá desde donde corresponde cuando vuelvas.</p>
     </section>
     <section id="mission" class="challenge-screen" aria-labelledby="mission-title" hidden>
-      <p class="eyebrow">MISIÓN 01 // ARCHIVO DE NOMBRES</p>
+      <p class="eyebrow">MINIJUEGO 02 // ARCHIVO DE NOMBRES</p>
       <h2 id="mission-title" tabindex="-1">Encuentra los<br><em>nombres infiltrados.</em></h2>
       <p class="message">Hay cuatro nombres escondidos. En cada uno, una letra ha sido sustituida por un número. Arrastra el dedo para encontrarlos y guarda los cuatro números.</p>
       <div id="word-grid" class="word-grid" role="grid" aria-label="Sopa de letras de trece por trece"></div>
@@ -61,53 +64,11 @@
       <p id="hint-status" class="hint-status" aria-live="polite"></p>
     </section>
     <section id="lock" class="challenge-screen" aria-labelledby="lock-title" hidden>
-      <p class="eyebrow">MISIÓN 01 // CÓDIGO DE ACCESO</p>
-      <div id="lock-icon" class="lock-icon" aria-hidden="true"><span></span></div>
+      <p class="eyebrow">CÓDIGO FINAL // ACCESO</p><div id="lock-icon" class="lock-icon" aria-hidden="true"><span></span></div>
       <h2 id="lock-title" tabindex="-1">Introduce el<br><em>código.</em></h2>
-      <form id="code-form" class="code-panel" hidden>
-        <label for="code">Introduce los cuatro números</label>
-        <input id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required>
-        <button type="submit">Comprobar código <span aria-hidden="true">→</span></button>
-      </form>
-      <div id="error-video" class="result-panel" hidden>
-        <p class="lock-result closed">CERRADO</p>
-        <div class="video-placeholder">VÍDEO DE ERROR PENDIENTE</div>
-        <button id="retry-code" type="button">Intentar de nuevo <span aria-hidden="true">↻</span></button>
-      </div>
-      <div id="gift-one" class="result-panel" hidden>
-        <p class="lock-result opened">ABIERTO</p>
-        <p class="eyebrow">ELEMENTO 01 RECUPERADO</p>
-        <h3>Primer regalo desbloqueado.</h3>
-        <p class="message">Aquí aparecerá el vídeo o la ubicación del primer regalo.</p>
-        <button id="begin-wait" type="button">Continuar <span aria-hidden="true">→</span></button>
-      </div>
-    </section>
-    <section id="waiting" aria-labelledby="waiting-title" hidden>
-      <p class="eyebrow">OPERACIÓN EN CURSO</p>
-      <h2 id="waiting-title" tabindex="-1">Preparando el<br><em>siguiente expediente.</em></h2>
-      <div class="countdown-card">
-        <p>Siguiente misión disponible en</p>
-        <strong id="countdown">20:00</strong>
-      </div>
-      <p class="message">Tiempo para investigar el primer elemento. Emilio y Papaya no harán declaraciones.</p>
-    </section>
-    <section id="puzzles" class="challenge-screen" aria-labelledby="puzzles-title" hidden>
-      <p class="eyebrow">MISIÓN 02 // ARCHIVO VISUAL</p>
-      <h2 id="puzzles-title" tabindex="-1">Reconstruye el<br><em>recuerdo.</em></h2>
-      <p id="puzzle-instructions" class="message">Toca dos piezas para intercambiarlas. Completa primero el archivo de la piscina.</p>
-      <div id="puzzle-stage" class="puzzle-stage">
-        <div id="photo-puzzle" class="photo-puzzle" role="grid" aria-label="Rompecabezas fotográfico de dieciséis piezas"></div>
-        <div class="puzzle-meta">
-          <span id="puzzle-label">ARCHIVO 01 / 02</span>
-          <span id="move-count">0 movimientos</span>
-        </div>
-        <button id="puzzle-hint" type="button" class="secondary">Colocar una pieza <span aria-hidden="true">＋</span></button>
-      </div>
-      <div id="puzzles-complete" class="result-panel" hidden>
-        <p class="eyebrow">ARCHIVOS RECUPERADOS</p>
-        <h3>Los dos recuerdos están completos.</h3>
-        <p class="message">Aquí aparecerá el vídeo o la ubicación del segundo regalo.</p>
-      </div>
+      <form id="code-form" class="code-panel"><label for="code">Introduce los cuatro números</label><input id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required><button type="submit">Comprobar código <span aria-hidden="true">→</span></button></form>
+      <div id="error-video" class="result-panel" hidden><p class="lock-result closed">CERRADO</p><div class="video-placeholder">VÍDEO DE ERROR PENDIENTE</div><button id="retry-code" type="button">Intentar de nuevo <span aria-hidden="true">↻</span></button></div>
+      <div id="gift-one" class="result-panel" hidden><p class="lock-result opened">ABIERTO</p><p class="eyebrow">ELEMENTO RECUPERADO</p><h3>Regalo desbloqueado.</h3><p class="message">Aquí aparecerá el vídeo o la ubicación del regalo.</p></div>
     </section>
     <footer>SOLO PARA TI <span aria-hidden="true">✦</span> 36 ES SOLO EL PRINCIPIO</footer>
   </main>
