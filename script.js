@@ -15,7 +15,7 @@ const PUZZLES = [
 ];
 
 const defaultState = {
-  screen: 'intro', foundWords: [], codeAttempts: 0, codeStage: 'entry', firstGiftUnlocked: false,
+  screen: 'intro', foundWords: [], hintCount: 0, codeAttempts: 0, codeStage: 'entry', firstGiftUnlocked: false,
   secondAvailableAt: 0, puzzleIndex: 0, puzzleBoards: [], puzzleMoves: [0, 0], secondGiftUnlocked: false
 };
 
@@ -32,6 +32,8 @@ const codeForm = document.querySelector('#code-form');
 const codeInput = document.querySelector('#code');
 const lockIcon = document.querySelector('#lock-icon');
 const wordStatus = document.querySelector('#word-status');
+const wordHint = document.querySelector('#word-hint');
+const hintStatus = document.querySelector('#hint-status');
 const errorVideo = document.querySelector('#error-video');
 const giftOne = document.querySelector('#gift-one');
 const photoPuzzle = document.querySelector('#photo-puzzle');
@@ -125,16 +127,30 @@ function wordIndexes(word) {
 }
 
 function paintFoundWords() {
-  grid.querySelectorAll('.found').forEach((cell) => cell.classList.remove('found'));
+  grid.querySelectorAll('.found, .hinted').forEach((cell) => cell.classList.remove('found', 'hinted'));
+  WORDS.slice(0, state.hintCount).forEach((word) => {
+    grid.children[wordIndexes(word)[0]]?.classList.add('hinted');
+  });
   state.foundWords.forEach((value) => {
     const word = WORDS.find((item) => item.value === value);
     if (word) wordIndexes(word).forEach((index) => grid.children[index]?.classList.add('found'));
   });
   wordStatus.textContent = `${state.foundWords.length} de 4 palabras encontradas`;
+  wordHint.hidden = state.hintCount >= WORDS.length;
+  hintStatus.textContent = state.hintCount
+    ? `Pista ${state.hintCount}: la primera letra marcada en amarillo es la ${WORDS[state.hintCount - 1].value[0]}.`
+    : '';
   if (state.foundWords.length === WORDS.length && state.screen === 'mission') {
     window.setTimeout(() => showScreen('lock'), 650);
   }
 }
+
+wordHint.addEventListener('click', () => {
+  if (state.hintCount >= WORDS.length) return;
+  state.hintCount += 1;
+  saveState();
+  paintFoundWords();
+});
 
 function renderLock() {
   const isError = state.codeStage === 'error' && !state.firstGiftUnlocked;
