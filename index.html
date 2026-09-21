@@ -2,92 +2,25 @@
 <html lang="es">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#111916">
-  <meta name="description" content="Un expediente anónimo para Ainhoa."><title>Expediente 23 · Ainhoa</title>
+  <meta name="description" content="Una operación secreta para Ainhoa."><title>Expediente 23 · Ainhoa</title>
   <link rel="stylesheet" href="style.css"><script src="script.js" defer></script>
 </head>
 <body>
 <main class="dossier">
-  <header><span>RECEPCIÓN // ENVÍO ANÓNIMO</span><span class="stamp">EXP. 23</span></header>
-
-  <section id="intro" aria-labelledby="intro-title">
-    <p class="eyebrow">DESTINATARIA: AINHOA</p><h1 id="intro-title">Alguien ha dejado<br><em>una carta.</em></h1>
-    <p class="message">Ha aparecido en recepción. No tiene remitente y solo pone tu nombre.</p>
-    <div class="letter"><p>«Todo lo que necesitas para llegar al final ya forma parte de tu historia.»</p><span>— SIN FIRMA</span></div>
-    <button id="start" type="button">Abrir el expediente <span aria-hidden="true">→</span></button>
-  </section>
-
-  <section id="story" class="story-screen" aria-labelledby="story-title" hidden>
-    <div class="story-progress" aria-hidden="true"><span id="story-progress-bar"></span></div><p id="story-kicker" class="eyebrow"></p>
-    <div id="story-photo-wrap" class="story-photo-wrap" hidden><img id="story-photo" class="story-photo" src="" alt=""></div>
-    <h2 id="story-title" tabindex="-1"></h2><p id="story-text" class="story-text"></p>
-    <button id="story-next" type="button">Seguir <span aria-hidden="true">→</span></button>
-  </section>
-
-  <section id="glitch-one" class="glitch-screen" aria-labelledby="glitch-one-title" hidden>
-    <p class="eyebrow alert">ERROR // ARCHIVO ALTERADO</p><div class="glitch-mark" aria-hidden="true">!</div>
-    <h2 id="glitch-one-title" tabindex="-1">Hay recuerdos<br><em>fuera de sitio.</em></h2>
-    <p class="message">Dos imágenes se han fragmentado. El expediente no continuará hasta reconstruirlas.</p>
-    <button type="button" data-next="puzzles">Recuperar recuerdos <span aria-hidden="true">↗</span></button>
-  </section>
-
-  <section id="puzzles" class="challenge-screen" aria-labelledby="puzzles-title" hidden>
-    <p class="eyebrow">PRUEBA 01 // ARCHIVO VISUAL</p><h2 id="puzzles-title" tabindex="-1">Reconstruye el<br><em>recuerdo.</em></h2>
-    <p id="puzzle-instructions" class="message">Toca dos piezas para intercambiarlas.</p>
-    <div id="puzzle-stage" class="puzzle-stage"><div id="photo-puzzle" class="photo-puzzle" role="grid" aria-label="Rompecabezas fotográfico de dieciséis piezas"></div>
-      <div class="puzzle-meta"><span id="puzzle-label">FOTO 01 / 02</span><span id="move-count">0 movimientos</span></div>
-      <button id="puzzle-hint" type="button" class="secondary">Colocar una pieza <span aria-hidden="true">＋</span></button></div>
-    <div id="puzzles-complete" class="result-panel" hidden><p class="eyebrow">ARCHIVOS RECUPERADOS</p><h3>Los recuerdos vuelven a estar completos.</h3><button type="button" data-next="gift-one">Abrir el resultado <span aria-hidden="true">→</span></button></div>
-  </section>
-
-  <section id="gift-one" class="placeholder-screen" aria-labelledby="gift-one-title" hidden>
-    <p class="eyebrow">ELEMENTO 01 // PENDIENTE</p><h2 id="gift-one-title" tabindex="-1">Aquí aparecerá<br><em>el primer regalo.</em></h2>
-    <div class="pending-card"><strong>CONTENIDO POR DEFINIR</strong><p>Vídeo, acertijo o indicación para encontrar el regalo.</p></div>
-    <button id="begin-wait" type="button">He encontrado el regalo <span aria-hidden="true">→</span></button>
-  </section>
-
-  <section id="waiting" class="challenge-screen" aria-labelledby="waiting-title" hidden>
-    <p class="eyebrow">EXPEDIENTE EN PAUSA</p><h2 id="waiting-title" tabindex="-1">La siguiente parte<br><em>aún no está disponible.</em></h2>
-    <div class="countdown-card"><p>El expediente continuará en</p><strong id="countdown">20:00</strong></div>
-    <p class="message">Puedes cerrar la página. El tiempo seguirá corriendo.</p>
-  </section>
-
-  <section id="glitch-two" class="glitch-screen" aria-labelledby="glitch-two-title" hidden>
-    <p class="eyebrow alert">ERROR // NUEVA INTERFERENCIA</p><div class="glitch-mark" aria-hidden="true">404</div>
-    <h2 id="glitch-two-title" tabindex="-1">El remitente ha dejado<br><em>otro mensaje.</em></h2>
-    <p class="message">Cuatro nombres están ocultos dentro del archivo. Juntos esconden un código.</p>
-    <button type="button" data-next="mission">Abrir archivo dañado <span aria-hidden="true">↗</span></button>
-  </section>
-
-  <section id="mission" class="challenge-screen" aria-labelledby="mission-title" hidden>
-    <p class="eyebrow">PRUEBA 02 // ARCHIVO DE NOMBRES</p><h2 id="mission-title" tabindex="-1">Encuentra los<br><em>nombres infiltrados.</em></h2>
-    <p class="message">Hay cuatro nombres escondidos. Arrastra el dedo para encontrarlos y guarda el código que descubras.</p>
-    <div id="word-grid" class="word-grid" role="grid" aria-label="Sopa de letras de trece por trece"></div>
-    <p id="word-status" class="status live-status" aria-live="polite">0 de 4 palabras encontradas</p>
-    <button id="word-hint" type="button" class="secondary hint-button">Necesito una pista <span aria-hidden="true">＋</span></button><p id="hint-status" class="hint-status" aria-live="polite"></p>
-  </section>
-
-  <section id="lock" class="challenge-screen" aria-labelledby="lock-title" hidden>
-    <p class="eyebrow">CÓDIGO 01 // ACCESO</p><div id="lock-icon" class="lock-icon" aria-hidden="true"><span></span></div><h2 id="lock-title" tabindex="-1">Introduce el<br><em>código.</em></h2>
-    <form id="code-form" class="code-panel"><label for="code">Código de cuatro cifras</label><input id="code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required><button type="submit">Comprobar <span aria-hidden="true">→</span></button></form>
-    <div id="error-video" class="result-panel" hidden><p class="lock-result closed">CERRADO</p><div class="video-placeholder">VÍDEO DE ERROR PENDIENTE</div><button id="retry-code" type="button">Intentar de nuevo <span aria-hidden="true">↻</span></button></div>
-    <div id="code-open" class="result-panel" hidden><p class="lock-result opened">ABIERTO</p><button type="button" data-next="gift-two">Ver elemento recuperado <span aria-hidden="true">→</span></button></div>
-  </section>
-
-  <section id="gift-two" class="placeholder-screen" aria-labelledby="gift-two-title" hidden>
-    <p class="eyebrow">ELEMENTO 02 // PENDIENTE</p><h2 id="gift-two-title" tabindex="-1">Aquí aparecerá<br><em>el segundo regalo.</em></h2>
-    <div class="pending-card"><strong>CONTENIDO POR DEFINIR</strong><p>La indicación para encontrar el segundo regalo aparecerá aquí.</p></div>
-    <form id="final-code-form" class="code-panel"><label for="final-code">Cuando tengas el regalo, busca el código que lo acompaña</label><input id="final-code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required><button type="submit">Activar tramo final <span aria-hidden="true">→</span></button><p id="final-code-status" class="hint-status" aria-live="polite"></p></form>
-  </section>
-
-  <section id="final-wait" class="challenge-screen" aria-labelledby="final-wait-title" hidden>
-    <p class="eyebrow">DESTINO FINAL // BLOQUEADO</p><h2 id="final-wait-title" tabindex="-1">Las instrucciones llegarán<br><em>cuando sea la hora.</em></h2>
-    <div class="countdown-card"><p>Destino disponible en</p><strong id="final-countdown">01:00:00</strong></div>
-  </section>
-
-  <section id="destination" class="placeholder-screen" aria-labelledby="destination-title" hidden>
-    <p class="eyebrow">DESTINO FINAL // PRIMERA INSTRUCCIÓN</p><h2 id="destination-title" tabindex="-1">Toca arreglarse<br><em>un poco.</em></h2>
-    <div class="dress-code"><span>CÓDIGO DE VESTIMENTA</span><strong>SMART CASUAL</strong><p>Prepárate para salir. El lugar y la hora aparecerán aquí cuando estén definidos.</p></div>
-  </section>
+  <header><span>OPERACIÓN CUMPLEAÑOS</span><span class="stamp">EXP. 23</span></header>
+  <section id="intro" aria-labelledby="intro-title"><p class="eyebrow">DESTINATARIA: AINHOA</p><h1 id="intro-title">La primera pista<br><em>ya está en casa.</em></h1><p class="message">El expediente solo se abrirá si completas la comanda del desayuno.</p><div class="letter"><p>«Siete cosas. Un solo orden. Y no, no vale comérselas antes.»</p><span>— SIN FIRMA</span></div><button id="start" type="button">Abrir la primera prueba <span aria-hidden="true">→</span></button></section>
+  <section id="breakfast" class="challenge-screen" aria-labelledby="breakfast-title" hidden><p class="eyebrow">PRUEBA 01 // LA COMANDA</p><h2 id="breakfast-title" tabindex="-1">Ordena el<br><em>desayuno.</em></h2><p class="message">Toca dos tarjetas para intercambiarlas. El orden correcto va de la bebida caliente al toque dulce final.</p><div id="breakfast-list" class="breakfast-list" aria-label="Ingredientes del desayuno para ordenar"></div><p id="breakfast-status" class="hint-status" aria-live="polite"></p><button id="check-breakfast" type="button">Enviar comanda <span aria-hidden="true">→</span></button></section>
+  <section id="breakfast-error" class="challenge-screen" aria-labelledby="breakfast-error-title" hidden><p class="eyebrow alert">COMANDA RECHAZADA</p><h2 id="breakfast-error-title" tabindex="-1">NOP.</h2><video class="error-video" controls playsinline preload="metadata"><source src="nop.m4v" type="video/mp4">Tu navegador no puede reproducir este vídeo.</video><button type="button" data-next="breakfast">Vale, otra vez <span aria-hidden="true">↻</span></button></section>
+  <section id="breakfast-success" class="placeholder-screen" aria-labelledby="breakfast-success-title" hidden><p class="eyebrow">COMANDA CORRECTA</p><h2 id="breakfast-success-title" tabindex="-1">Desayuno<br><em>desbloqueado.</em></h2><img class="reward-photo" src="images/desayuno.jpg" alt="Pista para encontrar el desayuno"><div class="letter"><p>«Pregunta por tu regalo a los gatos… o al tipo ese que vive contigo.»</p><span>— SIN FIRMA</span></div><button type="button" data-next="breakfast-code">Ya tengo el desayuno <span aria-hidden="true">→</span></button></section>
+  <section id="breakfast-code" class="challenge-screen" aria-labelledby="breakfast-code-title" hidden><p class="eyebrow">CÓDIGO DEL DESAYUNO</p><h2 id="breakfast-code-title" tabindex="-1">Busca la tarjeta<br><em>que lo acompaña.</em></h2><form id="breakfast-code-form" class="code-panel"><label for="breakfast-code-input">Código de cuatro cifras</label><input id="breakfast-code-input" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required><button type="submit">Continuar <span aria-hidden="true">→</span></button><p id="breakfast-code-status" class="hint-status" aria-live="polite"></p></form></section>
+  <section id="wait-ten" class="challenge-screen" aria-labelledby="wait-ten-title" hidden><p class="eyebrow">SIGUIENTE MISIÓN EN PREPARACIÓN</p><h2 id="wait-ten-title" tabindex="-1">Recupérate del<br><em>desayuno.</em></h2><div class="countdown-card"><p>El expediente continuará en</p><strong id="countdown-ten">10:00</strong></div><p class="message">Puedes cerrar la página. El tiempo seguirá corriendo.</p></section>
+  <section id="glitch-photos" class="glitch-screen" aria-labelledby="glitch-photos-title" hidden><p class="eyebrow alert">ERROR // RECUERDOS ALTERADOS</p><div class="glitch-mark" aria-hidden="true">!</div><h2 id="glitch-photos-title" tabindex="-1">Dos fotos están<br><em>fuera de sitio.</em></h2><button type="button" data-next="puzzles">Reconstruir recuerdos <span aria-hidden="true">↗</span></button></section>
+  <section id="puzzles" class="challenge-screen" aria-labelledby="puzzles-title" hidden><p class="eyebrow">PRUEBA 02 // ARCHIVO VISUAL</p><h2 id="puzzles-title" tabindex="-1">Reconstruye el<br><em>recuerdo.</em></h2><p id="puzzle-instructions" class="message"></p><div id="puzzle-stage"><div id="photo-puzzle" class="photo-puzzle" role="grid" aria-label="Rompecabezas fotográfico de dieciséis piezas"></div><div class="puzzle-meta"><span id="puzzle-label"></span><span id="move-count"></span></div><button id="puzzle-hint" type="button" class="secondary">Colocar una pieza <span aria-hidden="true">＋</span></button></div><div id="puzzles-complete" class="result-panel" hidden><p class="eyebrow">ARCHIVOS RECUPERADOS</p><h3>ROMA SIEMPRE<br>ES EL CAMINO</h3><p>Cuando encuentres el regalo, busca el código que lo acompaña.</p><button type="button" data-next="gift-code">Ya tengo el regalo <span aria-hidden="true">→</span></button></div></section>
+  <section id="gift-code" class="challenge-screen" aria-labelledby="gift-code-title" hidden><p class="eyebrow">CÓDIGO DEL PRIMER REGALO</p><h2 id="gift-code-title" tabindex="-1">Introduce el<br><em>nuevo código.</em></h2><form id="gift-code-form" class="code-panel"><label for="gift-code-input">Código de cuatro cifras</label><input id="gift-code-input" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••" required><button type="submit">Continuar <span aria-hidden="true">→</span></button><p id="gift-code-status" class="hint-status" aria-live="polite"></p></form></section>
+  <section id="wait-fifty" class="challenge-screen" aria-labelledby="wait-fifty-title" hidden><p class="eyebrow">SIGUIENTE MISIÓN EN PREPARACIÓN</p><h2 id="wait-fifty-title" tabindex="-1">El archivo volverá<br><em>a abrirse después.</em></h2><div class="countdown-card"><p>Siguiente prueba disponible en</p><strong id="countdown-fifty">50:00</strong></div><p class="message">Puedes cerrar la página. El tiempo seguirá corriendo.</p></section>
+  <section id="glitch-words" class="glitch-screen" aria-labelledby="glitch-words-title" hidden><p class="eyebrow alert">ERROR // NUEVA INTERFERENCIA</p><div class="glitch-mark" aria-hidden="true">404</div><h2 id="glitch-words-title" tabindex="-1">Hay nombres<br><em>infiltrados.</em></h2><button type="button" data-next="wordsearch">Abrir archivo dañado <span aria-hidden="true">↗</span></button></section>
+  <section id="wordsearch" class="challenge-screen" aria-labelledby="wordsearch-title" hidden><p class="eyebrow">PRUEBA 03 // ARCHIVO DE NOMBRES</p><h2 id="wordsearch-title" tabindex="-1">Encuentra los<br><em>cuatro nombres.</em></h2><p class="message">Arrastra el dedo sobre las letras. Los aciertos se quedarán marcados.</p><div id="word-grid" class="word-grid" role="grid" aria-label="Sopa de letras de trece por trece"></div><p id="word-status" class="status live-status" aria-live="polite">0 de 4 palabras encontradas</p><button id="word-hint" type="button" class="secondary hint-button">Necesito una pista <span aria-hidden="true">＋</span></button><p id="hint-status" class="hint-status" aria-live="polite"></p></section>
+  <section id="final-gift" class="placeholder-screen" aria-labelledby="final-gift-title" hidden><p class="eyebrow">EXPEDIENTE COMPLETADO</p><h2 id="final-gift-title" tabindex="-1">Regalo final<br><em>desbloqueado.</em></h2><div class="dress-code"><span>ÚLTIMA INSTRUCCIÓN</span><strong>SMART CASUAL</strong><p>Toca arreglarse un poco. El lugar y la hora se añadirán cuando estén definidos.</p></div></section>
   <footer>EXPEDIENTE 23 <span aria-hidden="true">✦</span> REMITENTE DESCONOCIDO</footer>
 </main>
 </body>

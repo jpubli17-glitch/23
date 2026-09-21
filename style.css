@@ -26,6 +26,16 @@ section { padding: clamp(2rem, 7vw, 3.5rem) 0; }
 .pending-card { margin: 1.5rem 0; padding: 1.5rem; border: 1px dashed #756f5e; background: #0c1310; text-align: center; }
 .pending-card strong { color: #dfc38b; letter-spacing: .12em; font-size: .8rem; }
 .pending-card p { color: #b8c2b9; margin-bottom: 0; }
+.breakfast-list { display: grid; gap: .55rem; margin: 1rem 0; }
+.breakfast-card { display: grid; grid-template-columns: 2rem 2.4rem 1fr; min-height: 3.6rem; padding: .65rem .8rem; border-color: #536052; background: #18231d; color: #eeeae0; }
+.breakfast-card:hover { background: #213028; }
+.breakfast-card.selected { border-color: #dfc38b; background: #29382e; box-shadow: inset 0 0 0 1px #dfc38b; }
+.breakfast-position { color: #dfc38b; font: 700 .8rem/1 ui-monospace, monospace; }
+.breakfast-icon { font-size: 1.45rem; }
+.breakfast-card strong, .breakfast-card small { display: block; }
+.breakfast-card small { margin-top: .15rem; color: #aeb8af; font-weight: 400; }
+.error-video { display: block; width: min(100%, 30rem); max-height: 58svh; margin: 1rem auto 1.5rem; border: 1px solid #536052; background: #000; }
+.reward-photo { display: block; width: min(100%, 32rem); max-height: 54svh; margin: 1rem auto; object-fit: contain; border: 1px solid #536052; background: #0c1310; }
 .dress-code { margin: 1.5rem 0; padding: 1.7rem; border-block: 1px solid #dfc38b; text-align: center; }
 .dress-code span { display: block; color: #b8c2b9; font-size: .75rem; letter-spacing: .16em; }
 .dress-code strong { display: block; margin: .7rem 0; color: #dfc38b; font: 400 clamp(2rem, 9vw, 3.5rem)/1 Georgia, serif; }
