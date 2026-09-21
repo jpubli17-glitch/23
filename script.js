@@ -1,10 +1,10 @@
 'use strict';
 
-const STORAGE_KEY = 'operacion-cumpleanos-v7';
+const STORAGE_KEY = 'operacion-cumpleanos-v8-test';
 const BREAKFAST_CODE = '1023';
 const GIFT_CODE = '1786';
-const TEN_MINUTES = 10 * 60 * 1000;
-const FIFTY_MINUTES = 50 * 60 * 1000;
+const TEN_MINUTES = 2 * 1000;
+const FIFTY_MINUTES = 2 * 1000;
 const BREAKFAST = [
   { id: 'cafe', icon: '☕', name: 'Café', clue: 'Lo que despierta' },
   { id: 'zumo', icon: '🍊', name: 'Zumo', clue: 'Lo que se exprime' },
