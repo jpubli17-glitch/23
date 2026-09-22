@@ -39,7 +39,7 @@ const WORDS = [
 const defaultState = {
   screen: 'intro', storyIndex: 0, breakfastOrder: ['croissant', 'cafe', 'jamon', 'zumo', 'mermelada', 'tostada', 'tomate'], breakfastAttempts: 0,
   waitTenUntil: 0, puzzleIndex: 0, puzzleBoards: [], puzzleMoves: [0, 0], puzzlesComplete: false, waitFiftyUntil: 0,
-  foundWords: [], hintCount: 0
+  foundWords: [], hintCount: 0, bonusChoice: ''
 };
 function loadState() { try { return { ...defaultState, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') }; } catch { return { ...defaultState }; } }
 let state = loadState();
@@ -68,6 +68,8 @@ function showScreen(id, persist = true) {
   }
   if (id === 'puzzles') renderPuzzle();
   if (id === 'wordsearch') paintFoundWords();
+  if (id === 'bonus') renderBonus();
+  if (id === 'ending') renderEnding();
   if (id === 'wait-ten') startCountdown('waitTenUntil', 'countdown-ten', 'glitch-photos');
   if (id === 'wait-fifty') startCountdown('waitFiftyUntil', 'countdown-fifty', 'glitch-words');
 }
@@ -149,11 +151,28 @@ function wordIndexes(word) { return [...word.value].map((_, index) => (word.star
 function clearProvisional() { grid.querySelectorAll('.selecting').forEach((cell) => cell.classList.remove('selecting')); }
 function updateSelection(endIndex) { if (!selection) return; clearProvisional(); selection.indexes = indexesBetween(selection.start, endIndex); selection.indexes.forEach((index) => grid.children[index].classList.add('selecting')); }
 function finishSelection() { if (!selection) return; const candidate = selection.indexes.map((index) => grid.children[index].textContent).join(''); const reversed = [...candidate].reverse().join(''); const match = WORDS.find(({ value }) => candidate === value || reversed === value); clearProvisional(); if (match && !state.foundWords.includes(match.value)) { state.foundWords.push(match.value); saveState(); paintFoundWords(); } selection = null; }
-function paintFoundWords() { grid.querySelectorAll('.found, .hinted').forEach((cell) => cell.classList.remove('found', 'hinted')); WORDS.slice(0, state.hintCount).forEach((word) => grid.children[wordIndexes(word)[0]]?.classList.add('hinted')); state.foundWords.forEach((value) => { const word = WORDS.find((item) => item.value === value); if (word) wordIndexes(word).forEach((index) => grid.children[index]?.classList.add('found')); }); wordStatus.textContent = `${state.foundWords.length} de 4 palabras encontradas`; wordHint.hidden = state.hintCount >= WORDS.length; hintStatus.textContent = state.hintCount ? `Pista ${state.hintCount}: la primera letra marcada en amarillo es la ${WORDS[state.hintCount - 1].value[0]}.` : ''; if (state.foundWords.length === WORDS.length && state.screen === 'wordsearch') setTimeout(() => showScreen('final-gift'), 650); }
+function paintFoundWords() { grid.querySelectorAll('.found, .hinted').forEach((cell) => cell.classList.remove('found', 'hinted')); WORDS.slice(0, state.hintCount).forEach((word) => grid.children[wordIndexes(word)[0]]?.classList.add('hinted')); state.foundWords.forEach((value) => { const word = WORDS.find((item) => item.value === value); if (word) wordIndexes(word).forEach((index) => grid.children[index]?.classList.add('found')); }); wordStatus.textContent = `${state.foundWords.length} de 4 palabras encontradas`; wordHint.hidden = state.hintCount >= WORDS.length; hintStatus.textContent = state.hintCount ? `Pista ${state.hintCount}: la primera letra marcada en amarillo es la ${WORDS[state.hintCount - 1].value[0]}.` : ''; if (state.foundWords.length === WORDS.length && state.screen === 'wordsearch') setTimeout(() => showScreen('papaya-clue'), 650); }
 wordHint.addEventListener('click', () => { if (state.hintCount >= WORDS.length) return; state.hintCount += 1; saveState(); paintFoundWords(); });
 grid.addEventListener('pointerdown', (event) => { const cell = event.target.closest('.word-cell'); if (!cell) return; event.preventDefault(); grid.setPointerCapture(event.pointerId); selection = { start: Number(cell.dataset.index), indexes: [] }; updateSelection(selection.start); });
 grid.addEventListener('pointermove', (event) => { if (!selection) return; const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('.word-cell'); if (target && grid.contains(target)) updateSelection(Number(target.dataset.index)); });
 grid.addEventListener('pointerup', finishSelection); grid.addEventListener('pointercancel', () => { clearProvisional(); selection = null; });
+
+document.querySelectorAll('.bonus-option').forEach((button) => button.addEventListener('click', () => {
+  state.bonusChoice = button.dataset.bonus; saveState();
+  renderBonus();
+}));
+function renderBonus() {
+  document.querySelectorAll('.bonus-option').forEach((option) => option.classList.toggle('selected', option.dataset.bonus === state.bonusChoice));
+  document.querySelector('#bonus-status').textContent = !state.bonusChoice ? 'Selecciona una opción.' : state.bonusChoice === 'masaje' ? 'Masaje seleccionado. Jimmy queda oficialmente notificado.' : 'Cosquillas seleccionadas. Luego no vale arrepentirse.';
+  document.querySelector('#bonus-continue').disabled = !state.bonusChoice;
+}
+function renderEnding() {
+  document.querySelector('#ending-message').textContent = state.bonusChoice === 'masaje' ? '«Vale por un masaje. Duración y calidad sujetas a la habilidad del operario.»' : '«Vale por una sesión de cosquillas. Tú has elegido esto libremente.»';
+}
+document.querySelector('#bonus-continue').addEventListener('click', () => {
+  if (!state.bonusChoice) return;
+  showScreen('ending');
+});
 
 document.querySelector('#start').addEventListener('click', () => showScreen('story'));
 document.querySelector('#story-next').addEventListener('click', () => { if (state.storyIndex < STORIES.length - 1) { state.storyIndex += 1; saveState(); renderStory(); window.scrollTo({ top: 0, behavior: 'smooth' }); } else showScreen('breakfast'); });
