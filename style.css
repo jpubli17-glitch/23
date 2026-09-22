@@ -4,6 +4,9 @@ body { margin: 0; min-height: 100svh; display: grid; place-items: center; paddin
 .dossier { width: 100%; max-width: 40rem; }
 header, footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: .75rem; letter-spacing: .12em; color: #b8c2b9; }
 header { padding-bottom: 1.5rem; border-bottom: 1px solid #536052; }
+.header-actions { display: flex; align-items: center; gap: .55rem; }
+.home-button { width: auto; min-height: 2rem; padding: .45rem .65rem; border-color: #536052; background: transparent; color: #b8c2b9; font-size: .72rem; letter-spacing: .04em; }
+.home-button:hover { background: #1d2923; color: #eeeae0; }
 .stamp { border: 1px solid #dfc38b; padding: .5rem .7rem; color: #dfc38b; white-space: nowrap; }
 section { padding: clamp(2rem, 7vw, 3.5rem) 0; }
 .challenge-screen { width: min(calc(100vw - 1.5rem), 48rem); min-height: calc(100svh - 7rem); position: relative; left: 50%; transform: translateX(-50%); padding-inline: clamp(.25rem, 3vw, 1.5rem); display: flex; flex-direction: column; justify-content: center; }

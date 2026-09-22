@@ -175,6 +175,11 @@ document.querySelector('#bonus-continue').addEventListener('click', () => {
 });
 
 document.querySelector('#start').addEventListener('click', () => showScreen('story'));
+document.querySelector('#reset-app').addEventListener('click', () => {
+  if (!window.confirm('¿Volver al principio? Se borrará el progreso de la operación.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  window.location.reload();
+});
 document.querySelector('#story-next').addEventListener('click', () => { if (state.storyIndex < STORIES.length - 1) { state.storyIndex += 1; saveState(); renderStory(); window.scrollTo({ top: 0, behavior: 'smooth' }); } else showScreen('breakfast'); });
 document.addEventListener('click', (event) => { const button = event.target.closest('[data-next]'); if (button) showScreen(button.dataset.next); });
 buildWordGrid();
