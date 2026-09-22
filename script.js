@@ -3,8 +3,8 @@
 const STORAGE_KEY = 'operacion-cumpleanos-v10-test';
 const BREAKFAST_CODE = '1023';
 const GIFT_CODE = '1786';
-const TEN_MINUTES = 2 * 1000;
-const FIFTY_MINUTES = 2 * 1000;
+const TEN_MINUTES = 10 * 60 * 1000;
+const FOUR_HOURS = 4 * 60 * 60 * 1000;
 const entryParams = new URLSearchParams(window.location.search);
 if (!entryParams.has('continuar')) {
   localStorage.removeItem(STORAGE_KEY);
@@ -119,14 +119,14 @@ function validateCode(formId, inputId, statusId, expected, waitKey, duration, ne
   });
 }
 validateCode('#breakfast-code-form', '#breakfast-code-input', '#breakfast-code-status', BREAKFAST_CODE, 'waitTenUntil', TEN_MINUTES, 'wait-ten');
-validateCode('#gift-code-form', '#gift-code-input', '#gift-code-status', GIFT_CODE, 'waitFiftyUntil', FIFTY_MINUTES, 'wait-fifty');
+validateCode('#gift-code-form', '#gift-code-input', '#gift-code-status', GIFT_CODE, 'waitFiftyUntil', FOUR_HOURS, 'wait-fifty');
 function startCountdown(stateKey, outputId, nextScreen) {
   clearInterval(countdownTimer);
   const update = () => {
     const remaining = Math.max(0, state[stateKey] - Date.now());
     if (!state[stateKey] || remaining === 0) { clearInterval(countdownTimer); showScreen(nextScreen); return; }
-    const minutes = Math.floor(remaining / 60000); const seconds = Math.floor((remaining % 60000) / 1000);
-    document.querySelector(`#${outputId}`).textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    const hours = Math.floor(remaining / 3600000); const minutes = Math.floor((remaining % 3600000) / 60000); const seconds = Math.floor((remaining % 60000) / 1000);
+    document.querySelector(`#${outputId}`).textContent = hours ? `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}` : `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
   update(); countdownTimer = setInterval(update, 1000);
 }

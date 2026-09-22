@@ -104,7 +104,8 @@ button:disabled { cursor: not-allowed; opacity: .35; }
 .puzzle-tile:hover { filter: brightness(1.06); }
 .puzzle-tile.selected { outline: 3px solid #dfc38b; outline-offset: -3px; filter: brightness(1.18); }
 .puzzle-meta { display: flex; justify-content: space-between; gap: 1rem; width: min(100%, 27rem); margin: .7rem auto 1rem; color: #b8c2b9; font-size: .8rem; letter-spacing: .06em; }
-.puzzle-stage > button { width: min(100%, 27rem); margin-inline: auto; }
+#puzzle-hint { width: auto; min-height: 2.25rem; margin-inline: auto; padding: .5rem .75rem; font-size: .78rem; opacity: .68; }
+#puzzle-hint:hover { opacity: 1; }
 :focus-visible { outline: 3px solid #fff; outline-offset: 5px; }
 footer { border-top: 1px solid #536052; padding-top: 1.5rem; flex-wrap: wrap; line-height: 1.6; }
 [hidden] { display: none !important; }
