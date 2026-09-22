@@ -1,10 +1,21 @@
 'use strict';
 
-const STORAGE_KEY = 'operacion-cumpleanos-v8-test';
+const STORAGE_KEY = 'operacion-cumpleanos-v9-test';
 const BREAKFAST_CODE = '1023';
 const GIFT_CODE = '1786';
 const TEN_MINUTES = 2 * 1000;
 const FIFTY_MINUTES = 2 * 1000;
+const STORIES = [
+  { kicker: 'TAL DÍA COMO HOY', title: 'Hace 36 años<br><em>empezó todo.</em>', text: 'Desde aquel 23 de septiembre han pasado 13.149 días. Parece mucho, pero se han quedado cortos para todo lo que ha ocurrido.' },
+  { kicker: '36 VUELTAS AL SOL', title: '13.149<br><em>amaneceres.</em>', text: 'Días normales, días enormes, viajes, cambios de planes y más de una historia que empezó sin avisar.' },
+  { kicker: 'CÁLCULO APROXIMADO', title: '303 millones de<br><em>respiraciones.</em>', text: 'Unas tranquilas, otras entre risas y unas cuantas intentando recuperar el aire después de algún plan brillante.' },
+  { kicker: 'MOTOR INTERNO', title: '1.325 millones de<br><em>latidos.</em>', text: 'La cifra es aproximada. En su caso puede ser mayor: ya sabemos que el corazón no le cabe en el pecho.' },
+  { kicker: 'LOS PRIMEROS CAPÍTULOS', title: 'Ha cambiado.<br><em>Por suerte.</em>', text: 'Han cambiado los años, los planes y alguna que otra versión. La sonrisa ya estaba allí desde el principio.', image: 'images/story/01-inicios.jpg', alt: 'Ainhoa de joven con una amiga en clase' },
+  { kicker: 'AMIGAS // MUCHAS HISTORIAS', title: 'Gente que<br><em>se queda.</em>', text: 'No se llega hasta aquí sola. Hay amigas, noches, viajes y momentos pequeños que acabaron siendo parte de la historia.', image: 'images/story/02-amigas.jpg', alt: 'Ainhoa de joven con sus amigas' },
+  { kicker: 'EL TIEMPO PASA', title: 'La risa<br><em>se mantiene.</em>', text: 'Cambian los sitios y las épocas. La facilidad para montar un plan y reírse sigue exactamente donde estaba.', image: 'images/story/03-historias.jpg', alt: 'Ainhoa sonriendo en uno de sus recuerdos' },
+  { kicker: 'MÁS GENTE, MÁS CAPÍTULOS', title: 'Una vida bien<br><em>acompañada.</em>', text: 'Familia, amigas y toda la gente que ha ido sumando. Ese también es uno de sus grandes logros.', image: 'images/story/04-gym.jpg', alt: 'Ainhoa sonriendo con una amiga en el gimnasio' },
+  { kicker: 'HOY // NIVEL 36', title: 'Treinta y seis<br><em>años después.</em>', text: 'Muchos países, muchas versiones y la misma capacidad para ver el lado bueno incluso cuando el plan se complica.', image: 'images/story/05-cumple-36.jpg', alt: 'Ainhoa celebrando su cumpleaños 36 con un pañuelo amarillo' }
+];
 const BREAKFAST = [
   { id: 'cafe', icon: '☕', name: 'Café', clue: 'Lo que despierta' },
   { id: 'zumo', icon: '🍊', name: 'Zumo', clue: 'Lo que se exprime' },
@@ -26,7 +37,7 @@ const WORDS = [
   { value: 'MARIB3L', start: [11, 11], direction: [0, -1] }
 ];
 const defaultState = {
-  screen: 'intro', breakfastOrder: ['croissant', 'cafe', 'jamon', 'zumo', 'mermelada', 'tostada', 'tomate'], breakfastAttempts: 0,
+  screen: 'intro', storyIndex: 0, breakfastOrder: ['croissant', 'cafe', 'jamon', 'zumo', 'mermelada', 'tostada', 'tomate'], breakfastAttempts: 0,
   waitTenUntil: 0, puzzleIndex: 0, puzzleBoards: [], puzzleMoves: [0, 0], puzzlesComplete: false, waitFiftyUntil: 0,
   foundWords: [], hintCount: 0
 };
@@ -51,10 +62,22 @@ function showScreen(id, persist = true) {
   document.querySelector(`#${id} h1, #${id} h2`)?.focus();
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (id === 'breakfast') renderBreakfast();
+  if (id === 'story') renderStory();
+  if (id === 'breakfast-error') {
+    const video = document.querySelector('#nop-video'); video.currentTime = 0; video.play().catch(() => {});
+  }
   if (id === 'puzzles') renderPuzzle();
   if (id === 'wordsearch') paintFoundWords();
   if (id === 'wait-ten') startCountdown('waitTenUntil', 'countdown-ten', 'glitch-photos');
   if (id === 'wait-fifty') startCountdown('waitFiftyUntil', 'countdown-fifty', 'glitch-words');
+}
+
+function renderStory() {
+  const slide = STORIES[state.storyIndex]; const wrap = document.querySelector('#story-photo-wrap'); const photo = document.querySelector('#story-photo');
+  document.querySelector('#story-kicker').textContent = slide.kicker; document.querySelector('#story-title').innerHTML = slide.title; document.querySelector('#story-text').textContent = slide.text;
+  document.querySelector('#story-progress-bar').style.width = `${((state.storyIndex + 1) / STORIES.length) * 100}%`; wrap.hidden = !slide.image;
+  if (slide.image) { photo.src = slide.image; photo.alt = slide.alt; }
+  document.querySelector('#story-next').innerHTML = state.storyIndex === STORIES.length - 1 ? 'Abrir el primer detalle <span aria-hidden="true">→</span>' : 'Seguir <span aria-hidden="true">→</span>';
 }
 
 function renderBreakfast() {
@@ -77,11 +100,8 @@ breakfastList.addEventListener('click', (event) => {
 });
 document.querySelector('#check-breakfast').addEventListener('click', () => {
   state.breakfastAttempts += 1; saveState();
-  if (state.breakfastAttempts === 1) { showScreen('breakfast-error'); return; }
-  const correct = state.breakfastOrder.every((id, index) => id === BREAKFAST[index].id);
-  const status = document.querySelector('#breakfast-status');
-  if (!correct) { status.textContent = 'La comanda sigue desordenada. Revisa las pistas pequeñas.'; return; }
-  status.textContent = ''; showScreen('breakfast-success');
+  if (state.breakfastAttempts <= 2) { showScreen('breakfast-error'); return; }
+  document.querySelector('#breakfast-status').textContent = ''; showScreen('breakfast-success');
 });
 
 function validateCode(formId, inputId, statusId, expected, waitKey, duration, nextScreen) {
@@ -135,7 +155,8 @@ grid.addEventListener('pointerdown', (event) => { const cell = event.target.clos
 grid.addEventListener('pointermove', (event) => { if (!selection) return; const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('.word-cell'); if (target && grid.contains(target)) updateSelection(Number(target.dataset.index)); });
 grid.addEventListener('pointerup', finishSelection); grid.addEventListener('pointercancel', () => { clearProvisional(); selection = null; });
 
-document.querySelector('#start').addEventListener('click', () => showScreen('breakfast'));
+document.querySelector('#start').addEventListener('click', () => showScreen('story'));
+document.querySelector('#story-next').addEventListener('click', () => { if (state.storyIndex < STORIES.length - 1) { state.storyIndex += 1; saveState(); renderStory(); window.scrollTo({ top: 0, behavior: 'smooth' }); } else showScreen('breakfast'); });
 document.addEventListener('click', (event) => { const button = event.target.closest('[data-next]'); if (button) showScreen(button.dataset.next); });
 buildWordGrid();
 if (state.screen === 'wait-ten' && state.waitTenUntil && state.waitTenUntil <= Date.now()) state.screen = 'glitch-photos';
