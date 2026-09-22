@@ -99,6 +99,8 @@ button:disabled { cursor: not-allowed; opacity: .35; }
 .countdown-card { margin: 2rem 0; border-block: 1px solid #536052; padding: 1.5rem 0; text-align: center; }
 .countdown-card p { margin: 0; color: #b8c2b9; }
 .countdown-card strong { display: block; margin-top: .5rem; color: #dfc38b; font: 400 clamp(3.5rem, 18vw, 6rem)/1 Georgia, serif; font-variant-numeric: tabular-nums; }
+.skip-countdown { width: 2rem; min-height: 2rem; margin: auto auto -1.5rem; padding: 0; justify-content: center; border-color: transparent; background: transparent; color: #536052; font-size: 1rem; opacity: .16; }
+.skip-countdown:hover, .skip-countdown:focus-visible { border-color: #536052; background: transparent; color: #b8c2b9; opacity: .72; }
 .photo-puzzle { display: grid; grid-template-columns: repeat(4, 1fr); width: min(100%, 29rem, calc((100svh - 16rem) * .75)); aspect-ratio: 3 / 4; margin: 1rem auto 0; border: 1px solid #dfc38b; background: #0c1310; }
 .puzzle-tile { min-width: 0; min-height: 0; padding: 0; border: 1px solid rgba(17, 25, 22, .55); border-radius: 0; background-repeat: no-repeat; background-size: 400% 400%; }
 .puzzle-tile:hover { filter: brightness(1.06); }

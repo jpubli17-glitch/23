@@ -130,6 +130,12 @@ function startCountdown(stateKey, outputId, nextScreen) {
   };
   update(); countdownTimer = setInterval(update, 1000);
 }
+document.querySelectorAll('.skip-countdown').forEach((button) => button.addEventListener('click', () => {
+  clearInterval(countdownTimer);
+  state[button.dataset.waitKey] = 0;
+  saveState();
+  showScreen(button.dataset.skip);
+}));
 
 function seededRandom(seed) { let value = seed; return () => ((value = (value * 9301 + 49297) % 233280) / 233280); }
 function shuffledBoard(seed) { const random = seededRandom(seed); const board = Array.from({ length: 16 }, (_, index) => index); for (let index = 15; index > 0; index -= 1) { const swap = Math.floor(random() * (index + 1)); [board[index], board[swap]] = [board[swap], board[index]]; } return board; }
