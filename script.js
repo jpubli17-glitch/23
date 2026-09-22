@@ -1,6 +1,6 @@
 'use strict';
 
-const STORAGE_KEY = 'operacion-cumpleanos-v9-test';
+const STORAGE_KEY = 'operacion-cumpleanos-v10-test';
 const BREAKFAST_CODE = '1023';
 const GIFT_CODE = '1786';
 const TEN_MINUTES = 2 * 1000;
@@ -32,9 +32,9 @@ const PUZZLES = [
 const WORD_SIZE = 13;
 const WORDS = [
   { value: 'P4PAYA', start: [1, 1], direction: [0, 1] },
-  { value: 'J1MMY', start: [2, 11], direction: [1, 0] },
-  { value: 'L4URA', start: [7, 11], direction: [1, -1] },
-  { value: 'MARIB3L', start: [11, 11], direction: [0, -1] }
+  { value: 'J1MMY', start: [4, 6], direction: [0, 1] },
+  { value: 'L4URA', start: [7, 1], direction: [0, 1] },
+  { value: 'MARIB3L', start: [11, 3], direction: [0, 1] }
 ];
 const defaultState = {
   screen: 'intro', storyIndex: 0, breakfastOrder: ['croissant', 'cafe', 'jamon', 'zumo', 'mermelada', 'tostada', 'tomate'], breakfastAttempts: 0,
@@ -133,7 +133,7 @@ function renderPuzzle() {
   stage.hidden = false; complete.hidden = true; const puzzle = PUZZLES[state.puzzleIndex]; const board = state.puzzleBoards[state.puzzleIndex]; photoPuzzle.innerHTML = '';
   board.forEach((sourceIndex, position) => { const tile = document.createElement('button'); const row = Math.floor(sourceIndex / 4); const column = sourceIndex % 4; tile.type = 'button'; tile.className = 'puzzle-tile'; tile.dataset.position = position; tile.style.backgroundImage = `url('${puzzle.image}')`; tile.style.backgroundPosition = `${column * 100 / 3}% ${row * 100 / 3}%`; tile.setAttribute('aria-label', `Pieza ${position + 1}`); photoPuzzle.append(tile); });
   document.querySelector('#puzzle-label').textContent = puzzle.label; document.querySelector('#move-count').textContent = `${state.puzzleMoves[state.puzzleIndex]} movimientos`;
-  document.querySelector('#puzzle-instructions').textContent = state.puzzleIndex === 0 ? 'Primero, reconstruye la foto de la piscina.' : 'Primera recuperada. Ahora toca la del restaurante.'; selectedTile = null;
+  document.querySelector('#puzzle-instructions').textContent = state.puzzleIndex === 0 ? 'Hay un recuerdo fragmentado. Reconstrúyelo para continuar.' : 'Primera recuperada. Ahora toca reconstruir la siguiente.'; selectedTile = null;
 }
 function checkPuzzle() { if (!state.puzzleBoards[state.puzzleIndex].every((value, index) => value === index)) return; state.puzzleIndex += 1; if (state.puzzleIndex >= PUZZLES.length) state.puzzlesComplete = true; saveState(); setTimeout(renderPuzzle, 500); }
 photoPuzzle.addEventListener('click', (event) => { const tile = event.target.closest('.puzzle-tile'); if (!tile) return; const position = Number(tile.dataset.position); if (selectedTile === null) { selectedTile = position; tile.classList.add('selected'); return; } const board = state.puzzleBoards[state.puzzleIndex]; [board[selectedTile], board[position]] = [board[position], board[selectedTile]]; state.puzzleMoves[state.puzzleIndex] += 1; saveState(); renderPuzzle(); checkPuzzle(); });
