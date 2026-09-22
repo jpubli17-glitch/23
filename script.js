@@ -5,6 +5,11 @@ const BREAKFAST_CODE = '1023';
 const GIFT_CODE = '1786';
 const TEN_MINUTES = 2 * 1000;
 const FIFTY_MINUTES = 2 * 1000;
+const entryParams = new URLSearchParams(window.location.search);
+if (!entryParams.has('continuar')) {
+  localStorage.removeItem(STORAGE_KEY);
+  window.history.replaceState(null, '', `${window.location.pathname}?continuar=1`);
+}
 const STORIES = [
   { kicker: 'TAL DÍA COMO HOY', title: 'Hace 36 años<br><em>empezó todo.</em>', text: 'Desde aquel 23 de septiembre han pasado 13.149 días. Parece mucho, pero se han quedado cortos para todo lo que ha ocurrido.' },
   { kicker: '36 VUELTAS AL SOL', title: '13.149<br><em>amaneceres.</em>', text: 'Días normales, días enormes, viajes, cambios de planes y más de una historia que empezó sin avisar.' },
@@ -177,7 +182,7 @@ document.querySelector('#bonus-continue').addEventListener('click', () => {
 document.querySelector('#start').addEventListener('click', () => showScreen('story'));
 document.querySelector('#reset-app').addEventListener('click', () => {
   localStorage.removeItem(STORAGE_KEY);
-  window.location.replace(window.location.pathname);
+  window.location.replace(`${window.location.pathname}?continuar=1`);
 });
 document.querySelector('#story-next').addEventListener('click', () => { if (state.storyIndex < STORIES.length - 1) { state.storyIndex += 1; saveState(); renderStory(); window.scrollTo({ top: 0, behavior: 'smooth' }); } else showScreen('breakfast'); });
 document.addEventListener('click', (event) => { const button = event.target.closest('[data-next]'); if (button) showScreen(button.dataset.next); });
